@@ -1,0 +1,24 @@
+{
+  "name": "ctrlv-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for ctrlv.in",
+  "authors": [
+    "Anthony Kuske <anthonykuske@gmail.com>"
+  ],
+  "license": "UNLICENSED",
+  "repository": "https://bitbucket.org/antriver/ctrlv-frontend",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-angular-templates": "^0.5.7",
+    "grunt-config": "^0.4.0",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-htmlmin": "^0.6.0",
+    "grunt-contrib-less": "^1.1.0",
+    "grunt-contrib-uglify": "^0.11.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-notify": "^0.4.3",
+    "grunt-replace": "^0.11.0",
+    "grunt-shell": "^1.1.2"
+  }
+}
