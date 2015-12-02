@@ -1,4 +1,4 @@
 .idea
 node_modules
 scripts/tmp
-src/templates.js
+src/js/templates.js
