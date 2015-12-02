@@ -1,0 +1,81 @@
+#uploader {
+    background:#fff center;
+    .box-shadow();
+    width:1006px;
+    max-width: 100%;
+    height:450px;
+    margin:30px auto;
+    color:#000;
+    position:relative;
+    z-index:2;
+    overflow: hidden;
+    background-size: cover;
+
+    // Shadow
+    &:after {
+        content: "";
+        display: block;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.6) 85%,rgba(0,0,0,0.6) 100%);
+    }
+}
+
+#uploader-collage {
+    position: absolute;
+    height: 600px;
+    width: 1200px;
+    top: -100px;
+    left: -100px;
+    overflow:hidden;
+    background: #000000;
+    -webkit-transform:rotate(-6deg);
+    -ms-transform:rotate(-6deg);
+    transform:rotate(-6deg);
+    -webkit-backface-visibility: hidden;
+}
+
+.upload-status {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 0 40px 40px 40px;
+    color: #fff;
+    margin: 0;
+    width: 100%;
+    z-index: 2;
+    transition: opacity 0.3s ease-out, left 0.5s ease-out;
+
+    &.out {
+        left: 100%;
+    }
+
+    h2 {
+        font-size: 30px;
+        color: #fff;
+        margin: 0 0 5px 0;
+        padding: 0;
+        font-weight: bold;
+        display: block;
+    }
+
+    h3 {
+        font-size: 20px;
+        color: #fff;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+        display: block;
+        line-height: 21px;
+    }
+
+    small {
+        font-size: 12px;
+        float: right;
+        line-height: 21px;
+    }
+}

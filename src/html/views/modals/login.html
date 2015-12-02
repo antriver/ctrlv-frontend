@@ -1,0 +1,13 @@
+<div class="modal" ng-click="close()">
+    <div class="modal-content" ng-click="$event.stopPropagation()">
+
+        <label>Username <input type="text" ng-model="username" name="username" /></label>
+        <label>Password <input type="password" ng-model="password" name="password" /></label>
+
+        <span ng-bind="username"></span>
+        <span ng-bind="password"></span>
+
+        <a class="btn" ng-click="login()">Login</a>
+        <a class="btn" ng-click="close()">Close</a>
+    </div>
+</div>

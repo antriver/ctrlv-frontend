@@ -1,12 +1,24 @@
 // Path to the /assets directory from the generated css file.
 @assetUrl: "../../../";
 
+//@import "../../bower_components/normalize-css/normalize.css";
+
+@import "reset.less";
+
 @import "lib/bootstrap.less";
 @import "lib/typicons.less";
 
 @import (less, reference) "variables.less";
 @import (less, reference) "mixins.less";
 
-@import "components/buttons.less";
-
 @import "global.less";
+@import "homepage-sprites.less";
+
+@import "components/buttons.less";
+@import "components/modals.less";
+@import "components/spinners.less";
+
+@import "pages/home.less";
+@import "pages/image.less";
+
+//@import "winter.less";

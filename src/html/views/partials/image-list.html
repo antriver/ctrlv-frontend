@@ -1,0 +1,11 @@
+
+<ul ng-if="images.length > 0" class="img-grid">
+    <li ng-repeat="image in images">
+        <a
+            ui-sref="image({ imageId: image.imageId })"
+            ng-style="{'background-image': image.thumbnail ? '' : 'url('+ image.image.url + ')'}"
+            >
+            <img ng-if="image.thumbnail" class="img-thumb" ng-src="{{ image.thumbnail.url }}" />
+        </a>
+    </li>
+</ul>

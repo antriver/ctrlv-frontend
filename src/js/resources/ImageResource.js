@@ -1,21 +1,19 @@
 app.factory(
     'ImageResource',
-    [
-        '$resource',
-        function ($resource) {
-            return $resource(
-                apiUrl + 'images/:id',
-                {},
-                {
-                    get: {
-                        transformResponse: function(data) {
-                            var data = angular.fromJson(data);
-                            return data.image;
-                        }
+    function ($resource) {
+        return $resource(
+            apiUrl + 'images/:imageId',
+            {},
+            {
+                get: {
+                    cache: true,
+                    transformResponse: function(data) {
+                        data = angular.fromJson(data);
+                        return data.image;
                     }
-
                 }
-            );
-        }
-    ]
+
+            }
+        );
+    }
 );

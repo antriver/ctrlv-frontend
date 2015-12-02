@@ -26,6 +26,27 @@ module.exports = function(grunt) {
             }
         },
 
+        concat: {
+            options: {
+                separator: "\n",
+            },
+            'build-angular': {
+                /**
+                 * Combines angular and all the modules into one file.
+                 */
+                 src: [
+                    'bower_components/angular/angular.min.js',
+                    'bower_components/angular-animate/angular-animate.min.js',
+                    'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
+                    'bower_components/angular-modal-service/dst/angular-modal-service.min.js',
+                    'bower_components/angular-resource/angular-resource.min.js',
+                    'bower_components/angular-sanitize/angular-sanitize.min.js',
+                    'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+                 ],
+                dest: 'public/assets/build/' + buildNumber + '/js/angular.min.js'
+            },
+        },
+
         uglify: {
             options: {
                 mangle: false,
@@ -34,17 +55,13 @@ module.exports = function(grunt) {
             },
             'build-js': {
                 src: [
-                    'bower_components/bootstrap/dist/js/bootstrap.min.js',
-                    'bower_components/angular-ui-router/release/angular-ui-router.min.js',
-                    'src/js/init.js',
-                    'src/js/templates.js',
                     'src/js/app.js',
+                    'src/js/templates.js',
                     'src/js/api.js',
                     'src/js/**/*.js',
-
                 ],
                 dest: 'public/assets/build/' + buildNumber + '/js/ctrlv.min.js'
-            }
+            },
         },
 
         clean: {
@@ -81,8 +98,9 @@ module.exports = function(grunt) {
                     variables: {
                         env: 'dev',
                         cssUrl: '/assets/build/' + buildNumber + '/css/ctrlv.min.css',
+                        angularJsUrl: '/assets/build/' + buildNumber + '/js/angular.min.js',
                         jsUrl: '/assets/build/' + buildNumber + '/js/ctrlv.min.js',
-                        apiUrl: 'http://api.ctrlv.vagrant/',
+                        apiUrl: 'http://api.vagrant.ctrlv.in/v1.1/',
                         baseUrl: 'http://ctrlv.vagrant/'
                     }
                 }
@@ -92,8 +110,9 @@ module.exports = function(grunt) {
                     variables: {
                         env: 'dev',
                         cssUrl: 'https://assets.ctrlv.in/assets/build/' + buildNumber + '/css/ctrlv.min.css',
+                        angularJsUrl: '/assets/build/' + buildNumber + '/js/angular.min.js',
                         jsUrl: 'https://assets.ctrlv.in/assets/build/' + buildNumber + '/js/ctrlv.min.js',
-                        apiUrl: 'https://api.ctrlv.in/',
+                        apiUrl: 'https://api.ctrlv.in/v1.1/',
                         baseUrl: 'https://ctrlv.in/'
                     }
                 }
@@ -110,6 +129,7 @@ module.exports = function(grunt) {
                             json: {
                                 'env': '<%= grunt.config.get("env") %>',
                                 'apiUrl': '<%= grunt.config.get("apiUrl") %>',
+                                'angularJsUrl': '<%= grunt.config.get("angularJsUrl") %>',
                                 'jsUrl': '<%= grunt.config.get("jsUrl") %>',
                                 'cssUrl': '<%= grunt.config.get("cssUrl") %>',
                             }
@@ -159,6 +179,7 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -188,6 +209,8 @@ module.exports = function(grunt) {
 
         // Less -> minified css
         grunt.task.run(['less:build-less']);
+
+        grunt.task.run(['concat:build-angular']);
 
         // JS -> minified js
         grunt.task.run(['uglify:build-js']);

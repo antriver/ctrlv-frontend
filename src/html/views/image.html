@@ -1,12 +1,24 @@
-<ng-include src="'views/partials/current-user.html'"></ng-include>
-test
-Image page!
 
-        {{ imageId }}
-        {{ image }}
 
-        <a ui-sref=".test">Show List</a>
+<div class="img-wrapper">
 
-        <div ui-view></div>
+    <div ng-if="loading">
+        <i class="spinner-loading dark"></i>
+    </div>
 
-        <img src="{{ image.urls.image }}" />
+    <img
+        ng-if="!loading && image"
+        ng-src="{{ image.image.url }}"
+        class="img"
+        />
+
+    <div ng-if="!loading" class="img-details">
+        Uploaded by <a href="#">Jimmenybillybob</a>
+        <div class="img-tools">
+            <a class="btn">Crop</a>
+            <a class="btn">Rotate</a>
+            <a class="btn">Delete</a>
+        </div>
+    </div>
+
+</div>
