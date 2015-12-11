@@ -2,19 +2,6 @@ app.controller(
     'HeaderController',
     function ($scope, $rootScope, ModalService, AuthService) {
 
-        $scope.user = AuthService.getUser();
-        console.log($scope.user);
-
-        $rootScope.$on('login', function(event, args) {
-            $scope.user = args.user;
-            console.log($scope.user);
-        });
-
-        $rootScope.$on('logout', function(event, args) {
-            $scope.user = false;
-            console.log($scope.user);
-        });
-
         $scope.login = function() {
             // Just provide a template url, a controller and call 'showModal'.
             ModalService.showModal({

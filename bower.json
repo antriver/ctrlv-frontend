@@ -9,6 +9,8 @@
     "angular-resource": "1.4.8",
     "angular-sanitize": "1.4.8",
     "angular-animate": "1.4.8",
-    "angular-modal-service": "https://github.com/dwmkerr/angular-modal-service.git#f656ba4"
+    "angular-modal-service": "https://github.com/dwmkerr/angular-modal-service.git#f656ba4",
+    "moment": "~2.10.6",
+    "Jcrop": "0.9.13"
   }
 }

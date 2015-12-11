@@ -1,3 +1,10 @@
-<div class="content">
-    <ng-include src="'views/partials/image-list.html'"></ng-include>
+<ng-include src="'views/partials/image-list.html'"></ng-include>
+
+<div class="album-sidebar" ng-if="albums.length > 0">
+    <ul>
+        <li>Albums</li>
+        <li ng-repeat="album in albums" ng-class="{active: albumId == albums.albumId}">
+            <a ui-sref="image({ imageId: albumImage.imageId, albumId: albumId })">{{ album.title }}</a>
+        </li>
+    </ul>
 </div>

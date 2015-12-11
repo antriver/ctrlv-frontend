@@ -1,63 +1,245 @@
+.image footer {
+    .abs-bottom();
+}
+
 .img-wrapper {
 
     .vertical-center();
 
-    padding:20px;
-    height: calc(~"100vh - 83px - 100px");
+    padding: 20px (@img-left-sidebar-expanded-width - @standard-border-width);
+
+    height: ~"calc(100vh - @{header-height} - @{footer-height})";
 
     .img {
-        background:#fff;
+        background: #fff;
         .box-shadow();
         border: @standard-border-width @standard-border-color solid;
-
         max-width: 100%;
         max-height: 100%;
-        /* width: auto; */
-        /* height: auto; */
-        /*margin: auto;*/
-        //display: block;
     }
-}
 
-.img-title, .img-details {
-    text-shadow: rgba(0,0,0,0.8) 1px 1px 1px;
-}
-
-.img-title {
-    margin-bottom:20px;
-}
-
-.img-details {
-    margin-top:20px;
+    p {
+        text-align: center;
+        margin-bottom: 5px;
+    }
 }
 
 @media (max-width: @screen-xs-max) {
     .img-wrapper {
-        height:auto;
-        padding:10px;
+        height: auto;
+        padding: 10px;
 
         .img {
-            max-height:none;
+            max-height: none;
             height: auto;
         }
     }
 }
 
-.album-sidebar {
+.sidebar {
     position: fixed;
-    left:0;
-    top:83px;
-    bottom:0;
     background: @box-bg-color;
-    list-style: none;
+    .transition-all();
+
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+
+.img-left-sidebar {
+    position: fixed;
+    top: 50%;
+    left: 0;
+
+    padding: 10px 0;
+    border: @standard-border-width @standard-border-color solid;
+    border-left: 0;
+
+    width: @img-left-sidebar-width;
+
+    // Vertically center (first number is height of the sidebar)
+    margin-top: (-(258px - @header-height) / 2);
+
+    &.editable {
+        margin-top: (-(437px - @header-height) / 2);
+    }
+
+    &.revertable {
+        margin-top: (-(483px - @header-height) / 2);
+    }
+
+    &.cropping {
+        margin-top: (-(104px - @header-height) / 2);
+    }
+
+    .btn {
+        display: block;
+        margin: 10px;
+        padding: 6px;
+        height: 36px;
+        overflow: hidden;
+        line-height:23px;
+        i {
+            font-size: 22px;
+            top:-5px;
+        }
+
+        span {
+            max-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            .transition-all();
+        }
+
+        .spinner-loading {
+            zoom: 1;
+            position: relative;
+            left: 1px;
+            top: -2px;
+            width: 22px;
+        }
+    }
+
+    // Expand labels
+    &.cropping,
+    &:hover,
+    &:focus,
+    &:active {
+
+        // Be explicit
+        width: @img-left-sidebar-expanded-width;
+
+        .btn span {
+            max-width: 200px;
+            padding: 0 2px;
+        }
+    }
+
+    hr {
+        margin: 10px;
+    }
+}
+
+.img-right-sidebar {
+    right: 0;
+    top: 70px;
+    bottom: 0;
+    width: 95px;
+
+    border-top: @standard-border-width @standard-border-color solid;
+    border-left: @standard-border-width @standard-border-color solid;
+
+    ul {
+        list-style: none;
+    }
 
     li {
         display: block;
-        margin:10px !important;
+        margin: 10px !important;
+    }
+
+    li:not(.active):not(:hover) {
+        img {
+            -webkit-filter: grayscale(100%);
+            filter: grayscale(100%);
+            opacity: .8;
+        }
+    }
+
+    li:first-child {
+        color: @standard-border-color;
+        font-size: 11px;
+        text-align: center;
+        opacity: 1;
     }
 
     img {
-        width:75px;
+        width: 75px;
         height: 75px;
     }
+}
+
+// Position left sidebar off-screen
+.img-left-sidebar.ng-enter,
+.ng-enter .img-left-sidebar
+{
+    -webkit-transform: translate3d(-@img-left-sidebar-width, 0, 0);
+    -ms-transform: translate3d(-@img-left-sidebar-width, 0, 0);
+    transform: translate3d(-@img-left-sidebar-width, 0, 0);
+}
+
+.img-right-sidebar.ng-enter,
+.ng-enter .img-right-sidebar
+{
+    -webkit-transform: translate3d(95px, 0, 0);
+    -ms-transform: translate3d(95px, 0, 0);
+    transform: translate3d(95px, 0, 0);
+}
+
+.ng-enter .sidebar {
+    transition: none;
+}
+
+.sidebar.ng-enter-active {
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.sidebar.ng-leave {
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.img-left-sidebar.ng-leave-active,
+.ng-leave .img-left-sidebar
+{
+    -webkit-transform: translate3d(-@img-left-sidebar-width, 0, 0);
+    -ms-transform: translate3d(-@img-left-sidebar-width, 0, 0);
+    transform: translate3d(-@img-left-sidebar-width, 0, 0);
+}
+
+.img-right-sidebar.ng-leave-active,
+.ng-leave .img-right-sidebar
+{
+    -webkit-transform: translate3d(95px, 0, 0);
+    -ms-transform: translate3d(95px, 0, 0);
+    transform: translate3d(95px, 0, 0);
+}
+
+.view.ng-enter {
+    // Pretend to animating in so the .ng-active class gets added.
+    // Our animated children go offscreen when this class exists on the .view
+    // The transition is very short because the child stuff doesn't animate in until the .ng-active
+    // class is removed from the parent
+    .transition-all(0s);
+}
+
+.view.ng-leave {
+    // Angular will keep the view around for this length of time
+    // so set it long enough for child animating to finish
+    .transition-all();
+
+    // Immediately hide stuff not animating
+    >:not(.sidebar) {
+        display: none;
+    }
+}
+
+// Magic to not animate when going straight between 2 image pages
+
+// Don't animate the right bar when going from and to image page
+body.image[data-previous="image"] .img-right-sidebar {
+    transition: none;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    z-index:3;
+}
+// but hide the right bar immediately on the outgoing image page
+.view.image + .view.image .img-right-sidebar {
+    display: none;
 }

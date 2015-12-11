@@ -1,6 +1,6 @@
 app.service(
     'AuthService',
-    function (localStorageService, UserResource, SessionResource, $q, $rootScope) {
+    function (localStorageService, SessionResource, $q, $rootScope) {
 
         var session = null;
         var sessionKey = null;
@@ -38,16 +38,15 @@ app.service(
                     SessionResource.save({
                         username: username,
                         password: password
-                    }, function(result) {
+                    }, function(response) {
 
-                        self.onLogin(result.session, result.sessionKey);
+                        self.onLogin(response.session, response.sessionKey);
 
                         // Resolve promise (sends back user)
-                        resolve(result.session.user);
+                        resolve(response.session.user);
 
-                    }, function (result) {
-                        console.log(result);
-                        reject(result.data.message);
+                    }, function (response) {
+                        reject(response.data);
                     });
 
                 });

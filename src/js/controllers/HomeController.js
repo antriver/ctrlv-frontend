@@ -1,6 +1,9 @@
 app.controller(
     'HomeController',
-    function ($scope, $timeout) {
+    function ($scope, $rootScope, $timeout) {
+
+        $rootScope.title = '';
+        $rootScope.subtitle = '';
 
         var sprites = [];
         for (var i = 0; i < 20; i++) {

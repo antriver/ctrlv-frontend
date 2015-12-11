@@ -1,13 +1,92 @@
 <div class="modal" ng-click="close()">
     <div class="modal-content" ng-click="$event.stopPropagation()">
 
-        <label>Username <input type="text" ng-model="username" name="username" /></label>
-        <label>Password <input type="password" ng-model="password" name="password" /></label>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <form ng-submit="login()">
+                        <h2>Login <small>to you CtrlV account.</small></h2>
 
-        <span ng-bind="username"></span>
-        <span ng-bind="password"></span>
+                        <div class="form-group" ng-class="{'has-error': loginData.errors.username}">
+                            <label class="control-label"><i class="typ typ-user"></i> Username
+                                <input class="form-control" type="text" ng-model="loginData.username" name="username" />
+                            </label>
 
-        <a class="btn" ng-click="login()">Login</a>
-        <a class="btn" ng-click="close()">Close</a>
+                            <span ng-if="loginData.errors.username" class="help-block">{{ loginData.errors.username.join(' ') }}</span>
+
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': loginData.errors.password}">
+                            <label class="control-label"><i class="typ typ-key"></i> Password
+                                <input class="form-control" type="password" ng-model="loginData.password" name="password" />
+                            </label>
+
+                            <span ng-if="loginData.errors.password" class="help-block">{{ loginData.errors.password.join(' ') }}</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <a href="#" ng-click="forgot()"><i class="typ typ-warning-outline"></i> Forgot you password?</a>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <a href="#" ng-click="fb()"><i class="typ typ-social-facebook"></i> Used to login with Facebook?</a>
+                            </label>
+                        </div>
+
+                        <div ng-if="loginData.errors.general" class="form-group has-error">
+                            <span class="help-block"><i class="typ typ-warning"></i> {{ loginData.errors.general }}</span>
+                        </div>
+
+                        <button class="btn btn-block">
+                            <i class="spinner-loading dark" ng-show="loginData.loading"></i>
+                            <span ng-hide="loginData.loading">Login</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="col-sm-6">
+                    <form ng-submit="signup()">
+                        <h2>Create <small>a new CtrlV account.</small></h2>
+
+                        <div class="form-group" ng-class="{'has-error': signupData.errors.username}">
+                            <label class="control-label"><i class="typ typ-user"></i> Username
+                                <input class="form-control" type="text" ng-model="signupData.username" name="username" />
+                            </label>
+
+                            <span ng-if="signupData.errors.username" class="help-block">{{ signupData.errors.username.join(' ') }}</span>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': signupData.errors.username}">
+                            <label class="control-label"><i class="typ typ-key"></i> Password
+                                <input class="form-control" type="password" ng-model="signupData.password" name="password" />
+                            </label>
+
+                            <span ng-if="signupData.errors.password" class="help-block">{{ signupData.errors.password.join(' ') }}</span>
+                        </div>
+
+                        <div class="form-group" ng-class="{'has-error': signupData.errors.email}">
+                            <label class="control-label"><i class="typ typ-mail"></i> Email Address
+                                <input class="form-control" type="email" ng-model="signupData.email" name="email" />
+                            </label>
+
+                            <span ng-if="signupData.errors.email" class="help-block">{{ signupData.errors.email.join(' ') }}</span>
+                        </div>
+
+                        <div ng-if="signupData.errors.general" class="form-group has-error">
+                            <span class="help-block"><i class="typ typ-warning"></i> {{ signupData.errors.general }}</span>
+                        </div>
+
+                        <button class="btn btn-block">
+                            <i class="spinner-loading dark" ng-show="signupData.loading"></i>
+                            <span ng-hide="signupData.loading">Signup</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>

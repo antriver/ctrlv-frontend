@@ -2,7 +2,7 @@ var ImagePaster = (function () {
     "use strict";
 
     var ImagePaster = function (url) {
-        console.log('new ImagePaster', url);
+        console.log('ImagePaster', url);
         this.debug = true;
         this.url = url;
         this.pasteCatcher = null;
@@ -221,8 +221,13 @@ var ImagePaster = (function () {
         var self = this;
         $(document).trigger('ctrlvuploadstart');
 
+        var url = this.url;
+        if (typeof url === 'function') {
+            url = url();
+        }
+
         $.ajax({
-            url: this.url,
+            url: url,
             timeout: 90000,
             type: 'POST',
             data: {

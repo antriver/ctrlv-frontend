@@ -16,7 +16,11 @@ var app = angular.module('ctrlv', [
  */
 
 // Routes
-app.config(function($locationProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+app.config(function($httpProvider, $locationProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+
+     $httpProvider.defaults.headers.common = {
+        'RemoteUser': 'billybob'
+    };
 
     $locationProvider.html5Mode(true);
 
@@ -33,10 +37,7 @@ app.config(function($locationProvider, $stateProvider, $urlRouterProvider, local
         .state('home', {
             url: "/",
             templateUrl: "views/home.html",
-            controller: 'HomeController',
-            data : {
-                bodyClass : 'home'
-            }
+            controller: 'HomeController'
         })
         .state('help', {
             url: "/help",
@@ -46,10 +47,18 @@ app.config(function($locationProvider, $stateProvider, $urlRouterProvider, local
         .state('image', {
             url: "/{imageId:int}",
             templateUrl: "views/image.html",
-            controller: 'ImageController'
+            controller: 'ImageController',
+            params: {
+                albumId: null
+            },
         })
         .state('user', {
             url: "/user/{username:string}",
+            templateUrl: "views/user.html",
+            controller: 'UserController'
+        })
+        .state('user-page', {
+            url: "/user/{username:string}/{page:int}",
             templateUrl: "views/user.html",
             controller: 'UserController'
         })
@@ -60,9 +69,29 @@ app.config(function($locationProvider, $stateProvider, $urlRouterProvider, local
         });
 });
 
-app.run(function($rootScope, AuthService, ImagePasterService) {
+app.run(function($rootScope, $state, AuthService, ImagePasterService) {
+    // ImagePasterService is injected here so it gets initialized
+
+
+    //$httpProvider.defaults.headers.post["Content-Type"] = "text/plain";
+
+    $rootScope.$state = $state;
+
 
     AuthService.checkSession();
-    console.log('ImagePasterService', ImagePasterService);
+
+    $rootScope.user = AuthService.getUser();
+
+    $rootScope.$on('login', function(event, args) {
+        $rootScope.user = args.user;
+    });
+
+    $rootScope.$on('logout', function() {
+        $rootScope.user = false;
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+        $('body').attr('data-previous', from.name);
+    });
 });
 

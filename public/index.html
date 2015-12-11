@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ctrlv" class="no-js" ng-csp>
 <head>
-    <link rel="stylesheet" type="text/css" href="/assets/build/20151202011715/css/ctrlv.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/build/20151207045756/css/ctrlv.min.css" />
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
@@ -9,21 +9,23 @@
     <base href="/" />
     <title>CtrlV</title>
 </head>
-<body state-body-class>
+<body ng-class="$state.current.name">
+
+    <i ng-show="loading" id="loader" class="spinner-loading dark"></i>
 
     <ng-include src="'views/partials/header.html'" ng-controller="HeaderController"></ng-include>
 
-    <div ui-view="left-sidebar"></div>
-
-    <div ui-view></div>
+    <div class="view-container">
+        <div class="view" ui-view ng-class="$state.current.name"></div>
+    </div>
 
     <ng-include src="'views/partials/footer.html'"></ng-include>
 
 <script>
-var apiUrl = 'http://api.vagrant.ctrlv.in/v1.1/';
+var apiUrl = '/api/v1.1/';
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="/assets/build/20151202011715/js/angular.min.js"></script>
-<script type="text/javascript" src="/assets/build/20151202011715/js/ctrlv.min.js"></script>
+<script type="text/javascript" src="/assets/build/20151207045756/js/libs.min.js"></script>
+<script type="text/javascript" src="/assets/build/20151207045756/js/ctrlv.min.js"></script>
 </body>
 </html>

@@ -1,9 +1,14 @@
 app.factory(
     'AlbumResource',
-    function ($resource) {
+    function ($resource, AuthService) {
         return $resource(
             apiUrl + 'albums/:albumId',
-            {},
+            {
+                albumId: '@albumId',
+                sessionKey: function() {
+                    return AuthService.getSessionKey() || null;
+                }
+            },
             {
                 get: {
                     cache: true,
@@ -14,6 +19,7 @@ app.factory(
                 },
 
                 getImages: {
+                    cache: true,
                     url: apiUrl + 'albums/:albumId/images',
                     isArray: true,
                     transformResponse: function(data) {

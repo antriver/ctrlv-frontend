@@ -1,24 +1,57 @@
-
-
-<div class="img-wrapper">
-
-    <div ng-if="loading">
-        <i class="spinner-loading dark"></i>
-    </div>
+<div ng-if="image" class="img-wrapper">
 
     <img
         ng-if="!loading && image"
         ng-src="{{ image.image.url }}"
         class="img"
+        id="img"
         />
 
-    <div ng-if="!loading" class="img-details">
-        Uploaded by <a href="#">Jimmenybillybob</a>
-        <div class="img-tools">
-            <a class="btn">Crop</a>
-            <a class="btn">Rotate</a>
-            <a class="btn">Delete</a>
+</div>
+
+<div
+    ng-if="!loading && image"
+    class="sidebar img-left-sidebar"
+    ng-class="{
+        'editable': user && user.userId === image.userId,
+        'cropping': cropping,
+        'revertable': image.hasOriginal
+    }"
+    >
+
+    <div ng-if="cropping">
+        <a class="btn" href="#" ng-click="saveCrop()"><i class="typ typ-scissors" ng-hide="savingCrop"></i><i class="spinner-loading dark" ng-show="savingCrop"></i><span>Save Crop</span></a>
+        <a class="btn" href="#" ng-click="exitCrop()"><i class="typ typ-times"></i><span>Cancel</span></a>
+    </div>
+
+    <div ng-hide="cropping">
+        <a class="btn" href="#" ng-click="showTextDialog()"><i class="typ typ-sort-alphabetically"></i><span>Text Recognition</span></a>
+        <a class="btn" href="#" ng-click="showEmbedDialog()"><i class="typ typ-code"></i><span>Embed</span></a>
+        <a class="btn" href="#" ng-click="shareOnFb()"><i class="typ typ-social-facebook"></i><span>Share</span></a>
+        <a class="btn" href="#" ng-click="shareOnTwitter()"><i class="typ typ-social-twitter"></i><span>Tweet</span></a>
+
+        <hr/>
+
+        <div ng-if="user && user.userId === image.userId">
+            <a class="btn" href="#" ng-click="annotate()"><i class="typ typ-brush"></i><span>Annotate</span></a>
+            <a class="btn" href="#" ng-click="crop()"><i class="typ typ-scissors-outline"></i><span>Crop</span></a>
+            <a class="btn" href="#" ng-click="rotate()"><i class="typ typ-arrow-sync-outline" ng-hide="rotating"></i><i class="spinner-loading dark" ng-show="rotating"></i><span>Rotate</span></a>
+            <a class="btn" href="#" ng-if="image.hasOriginal" ng-click="revert()"><i class="typ typ-arrow-back" ng-hide="reverting"></i><i class="spinner-loading dark" ng-show="reverting"></i><span>Revert To Original</span></a>
+            <a class="btn" href="#" ng-click="showPrivacyDialog()"><i class="typ typ-lock-closed"></i><span>Privacy</span></a>
+            <a class="btn" href="#" ng-click="delete()"><i class="typ typ-trash" ng-hide="deleting"></i><i class="spinner-loading dark" ng-show="deleting"></i><span>Delete</span></a>
+        </div>
+        <div ng-if="!user || user.userId !== image.userId">
+            <a class="btn" href="#" ng-click="showReportDialog()"><i class="typ typ-flag"></i><span>Report</span></a>
         </div>
     </div>
 
+</div>
+
+<div class="sidebar img-right-sidebar" ng-if="albumImages.length > 0">
+    <ul>
+        <li>In This Album</li>
+        <li ng-repeat="albumImage in albumImages" ng-class="{active: imageId == albumImage.imageId}">
+            <a ui-sref="image({ imageId: albumImage.imageId, albumId: albumId })"><img ng-src="{{ albumImage.thumbnail.url }}" /></a>
+        </li>
+    </ul>
 </div>

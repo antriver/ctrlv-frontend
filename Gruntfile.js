@@ -30,7 +30,7 @@ module.exports = function(grunt) {
             options: {
                 separator: "\n",
             },
-            'build-angular': {
+            'build-libraries': {
                 /**
                  * Combines angular and all the modules into one file.
                  */
@@ -42,8 +42,10 @@ module.exports = function(grunt) {
                     'bower_components/angular-resource/angular-resource.min.js',
                     'bower_components/angular-sanitize/angular-sanitize.min.js',
                     'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+                    'bower_components/moment/min/moment.min.js',
+                    'bower_components/Jcrop/js/jquery.Jcrop.min.js',
                  ],
-                dest: 'public/assets/build/' + buildNumber + '/js/angular.min.js'
+                dest: 'public/assets/build/' + buildNumber + '/js/libs.min.js'
             },
         },
 
@@ -98,9 +100,9 @@ module.exports = function(grunt) {
                     variables: {
                         env: 'dev',
                         cssUrl: '/assets/build/' + buildNumber + '/css/ctrlv.min.css',
-                        angularJsUrl: '/assets/build/' + buildNumber + '/js/angular.min.js',
+                        librariesJsUrl: '/assets/build/' + buildNumber + '/js/libs.min.js',
                         jsUrl: '/assets/build/' + buildNumber + '/js/ctrlv.min.js',
-                        apiUrl: 'http://api.vagrant.ctrlv.in/v1.1/',
+                        apiUrl: '/api/v1.1/',
                         baseUrl: 'http://ctrlv.vagrant/'
                     }
                 }
@@ -110,9 +112,9 @@ module.exports = function(grunt) {
                     variables: {
                         env: 'dev',
                         cssUrl: 'https://assets.ctrlv.in/assets/build/' + buildNumber + '/css/ctrlv.min.css',
-                        angularJsUrl: '/assets/build/' + buildNumber + '/js/angular.min.js',
+                        librariesJsUrl: '/assets/build/' + buildNumber + '/js/libs.min.js',
                         jsUrl: 'https://assets.ctrlv.in/assets/build/' + buildNumber + '/js/ctrlv.min.js',
-                        apiUrl: 'https://api.ctrlv.in/v1.1/',
+                        apiUrl: '/api/v1.1/',
                         baseUrl: 'https://ctrlv.in/'
                     }
                 }
@@ -129,7 +131,7 @@ module.exports = function(grunt) {
                             json: {
                                 'env': '<%= grunt.config.get("env") %>',
                                 'apiUrl': '<%= grunt.config.get("apiUrl") %>',
-                                'angularJsUrl': '<%= grunt.config.get("angularJsUrl") %>',
+                                'librariesJsUrl': '<%= grunt.config.get("librariesJsUrl") %>',
                                 'jsUrl': '<%= grunt.config.get("jsUrl") %>',
                                 'cssUrl': '<%= grunt.config.get("cssUrl") %>',
                             }
@@ -210,7 +212,7 @@ module.exports = function(grunt) {
         // Less -> minified css
         grunt.task.run(['less:build-less']);
 
-        grunt.task.run(['concat:build-angular']);
+        grunt.task.run(['concat:build-libraries']);
 
         // JS -> minified js
         grunt.task.run(['uglify:build-js']);

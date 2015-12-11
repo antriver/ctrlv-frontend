@@ -1,6 +1,6 @@
 app.service(
     'ImagePasterService',
-    function($state) {
+    function($state, AuthService) {
 
         /**
          * Add listeners for events that ImagePaster broadcasts.
@@ -49,6 +49,16 @@ app.service(
             }
         });
 
-        return new ImagePaster(apiUrl + 'images');
+        var getImageUploadUrl = function() {
+            var url = apiUrl + 'images';
+
+            var sessionKey;
+            if (sessionKey = AuthService.getSessionKey()) {
+                url += '?sessionKey=' + sessionKey;
+            }
+            return url;
+        };
+
+        return new ImagePaster(getImageUploadUrl);
     }
 );

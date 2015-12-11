@@ -1,0 +1,43 @@
+<div class="modal" ng-click="close()" id="image-embed-modal">
+    <div class="modal-content" ng-click="$event.stopPropagation()">
+
+        <h2><i class="typ typ-export"></i>Link To <small>this image.</small></h2>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="form-group">
+                        <h4>Markdown Link <small>e.g. for Reddit comments</small></h4>
+                        <textarea rows="2" class="form-control" readonly="readonly">[{{image.url}}]({{image.url}}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <p><small><a href="http://redditenhancementsuite.com/">Reddit Enhancement Suite</a> supports CtrlV, so you can also just use this link in Reddit comments:</small></p>
+                        <input type="text" class="form-control" readonly="readonly" value="{{image.url}}" />
+                    </div>
+
+                    <div class="form-group">
+                        <h4>Markdown Image <small>e.g. for GitHub/BitBucket READMEs</small></h4>
+                        <textarea rows="3" class="form-control" readonly="readonly">[![{{ image.title }}]({{image.image.url}})]({{image.url}})</textarea>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+
+                    <div class="form-group">
+                        <h4>BBCode <small>for forums</small></h4>
+                        <textarea rows="3" class="form-control" readonly="readonly">[url={{image.url}}][img]{{image.image.url}}[/img]{{image.title}}[/url]</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <h4>HTML <small>for websites</small></h4>
+                        <textarea rows="5" class="form-control" readonly="readonly">&lt;a href=&quot;{{image.url}}&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;{{image.image.url}}&quot; style=&quot;max-width:900px;&quot; alt=&quot;CtrlV.in Image Hosting&quot; /&gt;&lt;/a&gt;</textarea>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

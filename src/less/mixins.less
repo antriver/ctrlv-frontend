@@ -26,3 +26,14 @@
     justify-content: center;
     align-items: center;
 }
+
+.transition-all(@speed: @standard-transition-speed) {
+    transition: all @speed @standard-transition-easing;
+}
+
+.abs-bottom() {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}

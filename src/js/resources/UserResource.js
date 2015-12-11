@@ -1,9 +1,14 @@
 app.factory(
     'UserResource',
-    function ($resource) {
+    function ($resource, AuthService) {
         return $resource(
             apiUrl + 'users/:username',
-            {},
+            {
+                username: '@username',
+                sessionKey: function() {
+                    return AuthService.getSessionKey() || null;
+                }
+            },
             {
                 get: {
                     cache: true,
@@ -13,26 +18,30 @@ app.factory(
                     }
                 },
 
+                save: {
+                    method: 'POST',
+                    url: apiUrl + 'users'
+                },
+
                 getImages: {
                     cache: true,
-                    url: apiUrl + 'users/:username/images',
-                    isArray: true,
+                    url: apiUrl + 'users/:username/images?page=:page',
+                    /*isArray: true,
                     transformResponse: function(data) {
                         var data = angular.fromJson(data);
                         return data.images;
-                    }
+                    }*/
                 },
 
                 getAlbums: {
                     cache: true,
                     url: apiUrl + 'users/:username/albums',
-                    isArray: true,
+                    /*isArray: true,
                     transformResponse: function(data) {
                         var data = angular.fromJson(data);
-                        return data.images;
-                    }
+                        return data;
+                    }*/
                 }
-
             }
         );
     }
