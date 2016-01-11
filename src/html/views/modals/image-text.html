@@ -1,0 +1,18 @@
+<div class="modal" ng-click="close()" id="image-text-modal">
+    <div class="modal-content" ng-click="$event.stopPropagation()">
+        <h2><i class="typ typ-sort-alphabetically"></i> Text <small>found in this image.</small></h2>
+        <div class="container-fluid">
+
+            <p ng-if="text.text.text">{{ text.text.text }}</p>
+
+            <div class="alert alert-warning" ng-if="text.text === null">
+                <i class="spinner-loading dark"></i> The image is currently being scanned for text.
+            </div>
+
+            <div class="alert alert-danger" ng-if="text.text.text.length < 1">
+                No text was found in the image.
+            </div>
+
+        </div>
+    </div>
+</div>

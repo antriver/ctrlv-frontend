@@ -14,6 +14,10 @@ app.factory(
                     cache: true,
                 },
 
+                update: {
+                    method: 'PUT'
+                },
+
                 revert: {
                     url: apiUrl + 'images/:imageId/image',
                     method: 'PUT',
@@ -34,6 +38,11 @@ app.factory(
                 crop: {
                     url: apiUrl + 'images/:imageId/crop',
                     method: 'POST'
+                },
+
+                getText: {
+                    url: apiUrl + 'images/:imageId/text',
+                    method: 'GET'
                 }
             }
         );

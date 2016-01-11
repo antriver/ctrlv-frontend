@@ -1,5 +1,7 @@
 <div ng-if="image" class="img-wrapper">
 
+    <div id="doodle" style="width:500px; height:500px;"></div>
+
     <img
         ng-if="!loading && image"
         ng-src="{{ image.image.url }}"

@@ -67,7 +67,17 @@ app.controller(
          */
 
         $scope.showTextDialog = function () {
-
+            ModalService.showModal({
+                templateUrl: 'views/modals/image-text.html',
+                controller: function ($scope, close, image) {
+                    $scope.image = image;
+                    $scope.text = ImageResource.getText({imageId: image.imageId});
+                    $scope.close = close;
+                },
+                inputs: {
+                    image: $scope.image
+                }
+            });
         };
 
         $scope.showEmbedDialog = function () {
@@ -75,9 +85,6 @@ app.controller(
                 templateUrl: 'views/modals/image-embed.html',
                 controller: function ($scope, close, image) {
                     $scope.image = image;
-
-                    $scope.markdown = '[![' + image.title + '](' + image.image.url + ')](' + image.url + ')';
-
                     $scope.close = close;
                 },
                 inputs: {
@@ -133,11 +140,11 @@ app.controller(
             $scope.savingCrop = true;
             ImageResource.crop(
                 params,
-                function(response) {
+                function (response) {
                     $scope.exitCrop();
                     $scope.image = response.image;
                 },
-                function(response) {
+                function (response) {
                     $scope.savingCrop = false;
                     alert(response.data.message);
                 }
@@ -151,7 +158,7 @@ app.controller(
             $scope.jcrop = null;
             $scope.savingCrop = false;
             // Undo what jcrop did
-            $('#img').css({width:'', height:''});
+            $('#img').css({width: '', height: ''});
         };
 
         $scope.rotate = function () {
@@ -206,7 +213,33 @@ app.controller(
         };
 
         $scope.showPrivacyDialog = function () {
+            ModalService.showModal({
+                templateUrl: 'views/modals/image-privacy.html',
+                controller: function ($scope, close, image) {
+                    $scope.image = image;
+                    $scope.close = close;
 
+                    $scope.setAnon = function (anon) {
+                        ImageResource.update({'imageId': $scope.image.imageId},
+                        {
+                            anonymous:anon
+                        }, function(res)
+                        {
+                            console.log(res);
+                            $scope.image = res.image;
+                            $scope.$parent.image = res.image;
+                        });
+                    };
+
+                    $scope.setPassword = function () {
+
+                    };
+
+                },
+                inputs: {
+                    image: $scope.image
+                }
+            });
         };
 
         $scope.delete = function () {
