@@ -1,14 +1,10 @@
 <div ng-if="image" class="img-wrapper">
-
-    <div id="doodle" style="width:500px; height:500px;"></div>
-
     <img
         ng-if="!loading && image"
         ng-src="{{ image.image.url }}"
         class="img"
         id="img"
         />
-
 </div>
 
 <div
@@ -17,16 +13,26 @@
     ng-class="{
         'editable': user && user.userId === image.userId,
         'cropping': cropping,
+        'annotating': annotating,
         'revertable': image.hasOriginal
     }"
     >
 
+    <div ng-if="annotating">
+        <a class="btn" href="#" ng-click="saveAnnotation()"><i class="typ typ-tick-outline" ng-hide="savingAnnotation"></i><i class="spinner-loading dark" ng-show="savingAnnotation"></i><span>Save Annotation</span></a>
+        <a class="btn" ng-class="{'active':annotationColorVisible}" href="#" ng-click="showAnnotationColor()"><i class="typ typ-media-record"></i><span>Pen Colour</span></a>
+        <a class="btn" ng-class="{'active':annotationSizeVisible}" href="#" ng-click="showAnnotationSize()"><i class="typ typ-brush"></i><span>Pen Size</span></a>
+        <a class="btn" href="#" ng-click="undoAnnotation()"><i class="typ typ-arrow-back"></i><span>Undo</span></a>
+        <a class="btn" href="#" ng-click="restartAnnotation()"><i class="typ typ-trash"></i><span>Start Over</span></a>
+        <a class="btn" href="#" ng-click="exitAnnotation()"><i class="typ typ-times"></i><span>Cancel</span></a>
+    </div>
+
     <div ng-if="cropping">
-        <a class="btn" href="#" ng-click="saveCrop()"><i class="typ typ-scissors" ng-hide="savingCrop"></i><i class="spinner-loading dark" ng-show="savingCrop"></i><span>Save Crop</span></a>
+        <a class="btn" href="#" ng-click="saveCrop()"><i class="typ typ-tick-outline" ng-hide="savingCrop"></i><i class="spinner-loading dark" ng-show="savingCrop"></i><span>Save Crop</span></a>
         <a class="btn" href="#" ng-click="exitCrop()"><i class="typ typ-times"></i><span>Cancel</span></a>
     </div>
 
-    <div ng-hide="cropping">
+    <div ng-hide="cropping || annotating">
         <a class="btn" href="#" ng-click="showTextDialog()"><i class="typ typ-sort-alphabetically"></i><span>Text Recognition</span></a>
         <a class="btn" href="#" ng-click="showEmbedDialog()"><i class="typ typ-code"></i><span>Embed</span></a>
         <a class="btn" href="#" ng-click="shareOnFb()"><i class="typ typ-social-facebook"></i><span>Share</span></a>
@@ -47,6 +53,12 @@
         </div>
     </div>
 
+</div>
+<div ng-if="doodle" ng-show="annotationColorVisible" class="ng-hide img-submenu sidebar annotation-color">
+    <a class="btn" ng-repeat="color in annotationColors" ng-class="{'active':doodle.color === '#'+color}" ng-click="setAnnotationColor(color)"><i class="typ typ-media-record" ng-style="{color: '#'+color}"></i></a>
+</div>
+<div ng-if="doodle" ng-show="annotationSizeVisible" class="ng-hide img-submenu sidebar annotation-size">
+    <a class="btn" ng-repeat="size in annotationSizes" ng-class="{'active':doodle.lineThickness === size}" href="#" ng-click="setAnnotationSize(size)"><i ng-style="{height:size+'px'}"></i></a>
 </div>
 
 <div class="sidebar img-right-sidebar" ng-if="albumImages.length > 0">

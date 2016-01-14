@@ -9,6 +9,4 @@
     </li>
 </ul>
 
-{{ currentPage }} / {{ totalPages }}
-
-<paginator total-pages="totalPages" current-page="currentPage"></paginator>
+<paginator ng-hide="totalPages === 1" class="sidebar" total-pages="totalPages" current-page="currentPage" url="url"></paginator>

@@ -18,6 +18,27 @@ app.factory(
                     method: 'PUT'
                 },
 
+                getText: {
+                    url: apiUrl + 'images/:imageId/text',
+                    method: 'GET'
+                },
+
+                annotate: {
+                    url: apiUrl + 'images/:imageId/image',
+                    method: 'PUT',
+                    params: {
+                        action: 'annotate'
+                    }
+                },
+
+                crop: {
+                    url: apiUrl + 'images/:imageId/image',
+                    method: 'PUT',
+                    params: {
+                        action: 'crop'
+                    }
+                },
+
                 revert: {
                     url: apiUrl + 'images/:imageId/image',
                     method: 'PUT',
@@ -34,16 +55,6 @@ app.factory(
                         degrees: 90
                     }
                 },
-
-                crop: {
-                    url: apiUrl + 'images/:imageId/crop',
-                    method: 'POST'
-                },
-
-                getText: {
-                    url: apiUrl + 'images/:imageId/text',
-                    method: 'GET'
-                }
             }
         );
     }

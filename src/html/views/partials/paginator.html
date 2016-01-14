@@ -1,8 +1,6 @@
-<ul class="sidebar paginator">
-{{ currentPage }} / {{ totalPages }}
-    <li><a href="#" ng-bind="page">{{ currentPage }}</a></li>
-    <li><a href="2">2</a></li>
-    <li><a href="3">3</a></li>
-    <li><a href="4">4</a></li>
-    <li><a href="5">5</a></li>
+<ul>
+    <li ng-repeat="page in pages track by $index" ng-class="{'active':currentPage === page}">
+        <a ng-if="page != '...'" href="{{url}}/{{page}}">{{ page }}</a>
+        <span ng-if="page === '...'">...</span>
+    </li>
 </ul>

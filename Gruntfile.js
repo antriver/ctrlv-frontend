@@ -37,6 +37,7 @@ module.exports = function(grunt) {
                  src: [
                     'bower_components/angular/angular.min.js',
                     'bower_components/angular-animate/angular-animate.min.js',
+                    'bower_components/angular-debounce/dist/angular-debounce.min.js',
                     'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
                     'bower_components/angular-modal-service/dst/angular-modal-service.min.js',
                     'bower_components/angular-resource/angular-resource.min.js',

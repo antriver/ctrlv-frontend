@@ -3,7 +3,6 @@
 }
 
 .img-wrapper {
-
     .vertical-center();
 
     padding: 20px (@img-left-sidebar-expanded-width - @standard-border-width);
@@ -36,42 +35,20 @@
     }
 }
 
+annotator {
+    position: absolute;
+    cursor: crosshair;
+}
+
 .sidebar {
     position: fixed;
+    z-index:3;
     background: @box-bg-color;
     .transition-all();
 
     -webkit-transform: translate3d(0, 0, 0);
     -ms-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-}
-
-
-.img-left-sidebar {
-    position: fixed;
-    top: 50%;
-    left: 0;
-
-    padding: 10px 0;
-    border: @standard-border-width @standard-border-color solid;
-    border-left: 0;
-
-    width: @img-left-sidebar-width;
-
-    // Vertically center (first number is height of the sidebar)
-    margin-top: (-(258px - @header-height) / 2);
-
-    &.editable {
-        margin-top: (-(437px - @header-height) / 2);
-    }
-
-    &.revertable {
-        margin-top: (-(483px - @header-height) / 2);
-    }
-
-    &.cropping {
-        margin-top: (-(104px - @header-height) / 2);
-    }
 
     .btn {
         display: block;
@@ -101,9 +78,59 @@
             width: 22px;
         }
     }
+}
+
+.img-left-sidebar,
+.img-submenu {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    background: #6C6C60;
+    padding: 10px 0;
+    border: @standard-border-width @standard-border-color solid;
+    border-left: 0;
+}
+
+.img-left-sidebar {
+    width: @img-left-sidebar-width;
+
+    // Vertically center (first number is height of the sidebar)
+
+    // height =
+    // num buttons * @img-sidebar-btn-height + 12px
+    // (12px =
+    //     - 10px (because the last button has no bottom margin)
+    //     + 22px (top and bottom padding and border)
+    // )
+
+    // 1 button is 36px + 10px bottom margin
+    // (Set as @@img-sidebar-btn-height)
+
+    // + 11px when the <hr> is there
+
+    margin-top: (-(@img-sidebar-btn-height * 5 + 12px + 11px - @header-height) / 2);
+
+    &.editable {
+        margin-top: (-(@img-sidebar-btn-height * 9 + 12px + 11px - @header-height) / 2);
+    }
+
+    &.revertable {
+        margin-top: (-(@img-sidebar-btn-height * 10 + 12px + 11px - @header-height) / 2);
+    }
+
+    &.cropping {
+        margin-top: (-(@img-sidebar-btn-height * 2 + 12px - @header-height) / 2);
+    }
+
+    &.annotating {
+        margin-top: (-(@img-sidebar-btn-height * 6 + 12px - @header-height) / 2);
+    }
+
+
 
     // Expand labels
     &.cropping,
+    &.annotating,
     &:hover,
     &:focus,
     &:active {
@@ -121,6 +148,43 @@
         margin: 10px;
     }
 }
+
+.img-submenu {
+    left: @img-left-sidebar-expanded-width;
+    z-index:2;
+}
+
+.annotation-color {
+    padding: 10px 0 0 10px;
+    width:104px;
+    margin-top: (-(380px - @header-height) / 2);
+
+    .btn {
+        display: inline-block;
+        margin:0 10px 10px 0 !important;
+        padding: 6px 2px;
+
+        i {
+            top:-1px;
+            font-size:30px;
+        }
+    }
+}
+
+.annotation-size {
+    margin-top: (-(166px - @header-height) / 2);
+
+    .btn {
+        height:auto;
+    }
+
+    i {
+        display: block;
+        width:25px;
+        background: #000;
+    }
+}
+
 
 .img-right-sidebar {
     right: 0;
@@ -251,4 +315,24 @@ body.image[data-previous="image"] .img-right-sidebar {
 // but hide the right bar immediately on the outgoing image page
 .view.image + .view.image .img-right-sidebar {
     display: none;
+}
+
+.img-submenu.ng-hide-remove-active,
+.img-submenu {
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity:1;
+}
+
+.img-submenu.ng-hide {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    -ms-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    opacity:0;
+}
+
+.img-submenu.ng-hide-remove,
+.img-submenu.ng-hide-add {
+    display: block !important;
 }

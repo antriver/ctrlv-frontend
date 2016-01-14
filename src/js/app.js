@@ -8,7 +8,8 @@ var app = angular.module('ctrlv', [
     'ngSanitize',
     'LocalStorageModule',
     'angularModalService',
-    'ngAnimate'
+    'ngAnimate',
+    'rt.debounce'
 ]);
 
 /**
@@ -18,9 +19,9 @@ var app = angular.module('ctrlv', [
 // Routes
 app.config(function($httpProvider, $locationProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
 
-     $httpProvider.defaults.headers.common = {
+    /*$httpProvider.defaults.headers.common = {
         'RemoteUser': 'billybob'
-    };
+    };*/
 
     $locationProvider.html5Mode(true);
 

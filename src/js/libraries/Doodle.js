@@ -4,10 +4,11 @@ var Doodle = function (element) {
     this.element = element;
     this.canvas = null;
 
-    this.lineThickness = 8;
+    this.lineThickness = 5;
     this.color = '#000000';
     this.drawing = false;
     this.history = [];
+    this.currentData = null;
 
     var ua = navigator.userAgent.toLowerCase();
     this.isAndroid = ua.indexOf("android") > -1;
@@ -21,8 +22,8 @@ Doodle.prototype = {
         this.canvas = document.createElement('canvas');
         this.element.appendChild(this.canvas);
 
-        this.canvas.setAttribute('width', $(this.element).width());
-        this.canvas.setAttribute('height', $(this.element).height());
+        //this.canvas.setAttribute('width', $(this.element).width());
+        //this.canvas.setAttribute('height', $(this.element).height());
 
         this.context = this.canvas.getContext('2d');
 
@@ -61,7 +62,7 @@ Doodle.prototype = {
         });
     },
 
-    clear: function (e) {
+    clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.context.fillStyle = this.color;
         this.history = [];
@@ -82,13 +83,43 @@ Doodle.prototype = {
         this.history.push(this.context.getImageData(0, 0, this.canvas.width, this.canvas.height));
     },
 
+    saveCurrentData: function () {
+        this.currentData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    },
+
     undo: function () {
         if (this.history.length > 0) {
-            this.context.putImageData(this.history[(this.history.length - 1)], 0, 0);
-            this.history.pop();
-        }
-        else {
+            var imageData = this.history.pop();
+            this.putImageData(imageData);
+        } else {
             alert('Nothing to undo!');
+        }
+    },
+
+    redraw: function () {
+        if (this.currentData) {
+            this.putImageData(this.currentData);
+        }
+    },
+
+    putImageData: function (imageData) {
+        console.log(imageData);
+
+        if (imageData.width === this.canvas.width) {
+            this.context.putImageData(imageData, 0, 0);
+        } else {
+            // Draw it to a new canvas to resize it
+            var scale = this.canvas.width / imageData.width;
+
+            var newCanvas = $('<canvas>')
+                .attr('width', imageData.width)
+                .attr('height', imageData.height)[0];
+
+            newCanvas.getContext('2d').putImageData(imageData, 0, 0);
+
+            this.context.scale(scale, scale);
+            this.context.drawImage(newCanvas, 0, 0);
+            this.context.scale(1 / scale, 1 / scale);
         }
     },
 
@@ -164,6 +195,9 @@ Doodle.prototype = {
             this.context.stroke();
             this.drawing = false;
         }
+
+        this.saveCurrentData();
+
         $(this.canvas).removeClass('drawing');
     },
 

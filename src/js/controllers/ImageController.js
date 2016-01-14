@@ -1,6 +1,6 @@
 app.controller(
     'ImageController',
-    function ($scope, $rootScope, $state, $stateParams, $compile, AuthService, ImageResource, AlbumResource, ModalService) {
+    function ($scope, $rootScope, $state, $element, $stateParams, $compile, AuthService, ImageResource, AlbumResource, ModalService) {
 
         $scope.albumId = null;
         $scope.albumImages = [];
@@ -103,9 +103,120 @@ app.controller(
             window.open(url);
         };
 
+        /**
+         * Annotating
+         */
+
+        $scope.annotating = false;
+        $scope.savingAnnotation = false;
+        $scope.annotationColorVisible = false;
+        $scope.annotationSizeVisible = false;
+        $scope.annotationColors = [
+            '000000',
+            'B2B2B2',
+            '823914',
+            'CC0000',
+            'FF7519',
+            'FFCC66',
+            'FFFF00',
+            '009933',
+            '99FF66',
+            '3333FF',
+            '99CCFF',
+            '66FFFF',
+            '9933FF',
+            'FF3399',
+            'FF99FF',
+            'ffffff',
+        ];
+        $scope.annotationSizes = [
+            2,
+            5,
+            15,
+            40
+        ];
+
+        /**
+         * @type {Doodle}
+         */
+        $scope.doodle = null;
+
         $scope.annotate = function () {
 
+            var element = document.createElement('annotator');
+            element.setAttribute('doodle', 'doodle');
+            var annotator = angular.element(element);
+
+            $element.append($compile(annotator)($scope));
+            $scope.annotating = true;
+
+            console.log($scope.doodle);
         };
+
+        $scope.showAnnotationColor = function () {
+            // Toggle display of the color picker
+            $scope.annotationColorVisible = $scope.annotationColorVisible ? false : true;
+            $scope.annotationSizeVisible = false;
+        };
+
+        $scope.setAnnotationColor = function (color) {
+            $scope.doodle.color = '#'+color;
+        };
+
+        $scope.showAnnotationSize = function () {
+            // Toggle display of the size picker
+            $scope.annotationSizeVisible = $scope.annotationSizeVisible ? false : true;
+            $scope.annotationColorVisible = false;
+        };
+
+        $scope.setAnnotationSize = function (px) {
+            $scope.doodle.lineThickness = px;
+        };
+
+        $scope.saveAnnotation = function () {
+
+            if ($scope.savingAnnotation) {
+                return false;
+            }
+
+            var annotation = $scope.doodle.getImage();
+
+            $scope.savingAnnotation = true;
+
+            ImageResource.annotate(
+                {imageId: $scope.imageId},
+                {base64:annotation},
+                function (response) {
+                    $scope.savingAnnotation = false;
+                    console.log(response);
+                    $scope.image = response.image;
+                    $scope.exitAnnotation();
+                }, function (response) {
+                    $scope.savingAnnotation = false;
+                    alert(response.data.message);
+                }
+            );
+        };
+
+        $scope.undoAnnotation = function () {
+            $scope.doodle.undo();
+        };
+
+        $scope.restartAnnotation = function () {
+            $scope.doodle.clear();
+        };
+
+        $scope.exitAnnotation = function () {
+            $scope.annotationColorVisible = false;
+            $scope.annotationSizeVisible = false;
+            $scope.annotating = false;
+            $scope.doodle = null;
+            $('annotator').remove();
+        };
+
+        /**
+         * Cropping
+         */
 
         $scope.cropCoords = null;
         $scope.cropping = false;
@@ -126,6 +237,10 @@ app.controller(
         };
 
         $scope.saveCrop = function () {
+
+            if ($scope.savingCrop) {
+                return false;
+            }
 
             // How much is the image scaled on screen
             var scale = $scope.getImageScale();

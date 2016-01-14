@@ -1,21 +1,35 @@
-.paginator {
+paginator {
+    display: block;
     top:70px;
     right:0;
     bottom:0;
     border-top: @standard-border-width @standard-border-color solid;
     border-left: @standard-border-width @standard-border-color solid;
-    //padding: 10px 0;
 
-    height:100%;
-    list-style: none;
-    .vertical-center();
+    overflow: hidden;
+    min-width:60px;
+
+    ul {
+        height: 100%;
+        list-style: none;
+        .vertical-center();
+    }
 
     li {
         display: block;
+        width: 100%;
+        text-align: center;
     }
-    a {
+
+    a,
+    span {
         display: block;
         padding:@standard-padding-half;
         font-size: 16px;
+    }
+
+    .active a {
+        background: @box-bg-color;
+        color:#fff;
     }
 }
