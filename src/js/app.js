@@ -55,24 +55,37 @@ app.config(function($httpProvider, $locationProvider, $stateProvider, $urlRouter
         })
         .state('user', {
             url: "/user/{username:string}",
-            templateUrl: "views/user.html",
-            controller: 'UserController'
+            templateUrl: "views/image-list.html",
+            controller: 'ImageListController',
+            params: {
+                mode: 'user'
+            },
         })
         .state('user-page', {
             url: "/user/{username:string}/{page:int}",
-            templateUrl: "views/user.html",
-            controller: 'UserController'
+            templateUrl: "views/image-list.html",
+            controller: 'ImageListController',
+            params: {
+                mode: 'user'
+            }
         })
 
         .state('album', {
             url: "/album/{albumId:int}",
-            templateUrl: "views/album.html",
-            controller: 'AlbumController'
+            templateUrl: "views/image-list.html",
+            controller: 'ImageListController',
+            params: {
+                mode: 'album'
+            }
+
         })
         .state('album-page', {
             url: "/album/{albumId:int}/{page:int}",
-            templateUrl: "views/album.html",
-            controller: 'AlbumController'
+            templateUrl: "views/image-list.html",
+            controller: 'ImageListController',
+            params: {
+                mode: 'album'
+            }
         });
 });
 

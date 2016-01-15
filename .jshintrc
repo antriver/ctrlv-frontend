@@ -1,0 +1,15 @@
+{
+  "undef": true,
+  "unused": true,
+  "noempty":true,
+  "noarg":true,
+  "eqeqeq":true,
+  "devel":true,
+  "jquery":true,
+  "browser":true,
+  "bitwise":true,
+  "curly":true,
+  "nonew":true,
+  "forin":true,
+  "predef": [ "app" ]
+}

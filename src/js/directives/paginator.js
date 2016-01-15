@@ -1,8 +1,10 @@
-app.directive('paginator', function factory($window, debounce) {
+app.directive('paginator', function factory($window, $timeout, debounce) {
     return {
         restrict: 'E',
         controller: function ($scope, $element) {
             var calculatePages = function () {
+
+                console.log('calculatePages', $scope.currentPage, $scope.totalPages);
 
                 // Only 1 page - don't need a paginator
                 if ($scope.totalPages <= 1) {
@@ -17,6 +19,9 @@ app.directive('paginator', function factory($window, debounce) {
                 var spaceHeight = 46;
 
                 var totalSpaces = Math.floor(paginatorHeight / spaceHeight);
+
+                console.log('paginatorHeight', paginatorHeight);
+                console.log('totalSpaces', totalSpaces);
 
                 // Round down to the next odd number
                 if (totalSpaces % 2 === 0) {
@@ -60,11 +65,15 @@ app.directive('paginator', function factory($window, debounce) {
                 return pages;
             };
 
-            $scope.pages = calculatePages();
+            $timeout(function() {
+                $scope.pages = calculatePages();
+            }, 50);
 
             // Recalculate on page change
             $scope.$watchGroup(['totalPages', 'currentPage'], function () {
-                $scope.pages = calculatePages();
+                $timeout(function() {
+                    $scope.pages = calculatePages();
+                }, 50);
             });
 
             // Recalculate on window resize
