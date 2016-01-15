@@ -2,8 +2,6 @@ app.directive('paginator', function factory($window, debounce) {
     return {
         restrict: 'E',
         controller: function ($scope, $element) {
-            console.log('$scope', $scope);
-
             var calculatePages = function () {
 
                 // Only 1 page - don't need a paginator

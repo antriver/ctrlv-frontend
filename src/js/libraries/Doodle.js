@@ -103,8 +103,6 @@ Doodle.prototype = {
     },
 
     putImageData: function (imageData) {
-        console.log(imageData);
-
         if (imageData.width === this.canvas.width) {
             this.context.putImageData(imageData, 0, 0);
         } else {

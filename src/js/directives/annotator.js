@@ -3,7 +3,6 @@ app.directive('annotator', function ($window, debounce) {
         restrict: 'E',
         controller: function ($scope, $element) {
 
-            console.log($scope.doodle);
             var imageEl = $('#img');
 
             $scope.doodle = new Doodle($element[0]);
@@ -22,12 +21,10 @@ app.directive('annotator', function ($window, debounce) {
             moveAndResize();
 
             var debouncedRedraw = debounce(200, function() {
-                console.log('debouncedRedraw');
                 $scope.doodle.redraw();
             });
 
             angular.element($window).bind('resize', function() {
-                console.log('resize');
                 moveAndResize();
                 debouncedRedraw();
             });

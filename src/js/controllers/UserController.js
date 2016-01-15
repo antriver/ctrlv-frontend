@@ -35,7 +35,6 @@ app.controller(
             $rootScope.loading = false;
             $scope.images = data.images;
             $scope.totalPages = data.lastPage;
-            console.log(data);
         });
     }
 );

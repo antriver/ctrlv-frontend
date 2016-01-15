@@ -2,7 +2,6 @@ var ImagePaster = (function () {
     "use strict";
 
     var ImagePaster = function (url) {
-        console.log('ImagePaster', url);
         this.debug = true;
         this.url = url;
         this.pasteCatcher = null;
@@ -171,7 +170,6 @@ var ImagePaster = (function () {
     };
 
     ImagePaster.prototype.uploadText = function (text) {
-        console.log('uploadText', text);
         return this.upload('text', text);
 
         /*if (this.validateURL(url)) {

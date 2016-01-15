@@ -45,7 +45,6 @@ app.controller(
                 }
                 subtitle += '</span>';
 
-                console.log($compile(subtitle)($scope));
                 $rootScope.subtitle = $compile(subtitle)($scope)[0].innerHTML;
 
                 if ($scope.image.albumId && $scope.image.albumId !== $scope.albumId) {
@@ -142,15 +141,12 @@ app.controller(
         $scope.doodle = null;
 
         $scope.annotate = function () {
-
             var element = document.createElement('annotator');
             element.setAttribute('doodle', 'doodle');
             var annotator = angular.element(element);
 
             $element.append($compile(annotator)($scope));
             $scope.annotating = true;
-
-            console.log($scope.doodle);
         };
 
         $scope.showAnnotationColor = function () {
@@ -188,7 +184,6 @@ app.controller(
                 {base64:annotation},
                 function (response) {
                     $scope.savingAnnotation = false;
-                    console.log(response);
                     $scope.image = response.image;
                     $scope.exitAnnotation();
                 }, function (response) {
@@ -230,7 +225,6 @@ app.controller(
             $scope.cropping = true;
             $scope.jcrop = $.Jcrop('#img', {
                 onChange: function (c) {
-                    console.log(c);
                     $scope.cropCoords = c;
                 }
             });
@@ -340,7 +334,6 @@ app.controller(
                             anonymous:anon
                         }, function(res)
                         {
-                            console.log(res);
                             $scope.image = res.image;
                             $scope.$parent.image = res.image;
                         });

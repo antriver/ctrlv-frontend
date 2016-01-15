@@ -5,7 +5,7 @@
 .img-wrapper {
     .vertical-center();
 
-    padding: 20px (@img-left-sidebar-expanded-width - @standard-border-width);
+    padding: 15px (@img-left-sidebar-expanded-width - @standard-border-width);
 
     height: ~"calc(100vh - @{header-height} - @{footer-height})";
 
@@ -187,16 +187,24 @@ annotator {
 
 
 .img-right-sidebar {
-    right: 0;
+
     top: 70px;
     bottom: 0;
-    width: 95px;
 
     border-top: @standard-border-width @standard-border-color solid;
     border-left: @standard-border-width @standard-border-color solid;
 
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    // Scrollbar wants to be hidden but maintain scrolling functionality
+    // Setting it 50px wider than necessary to cater for all kinds of scrollbar sizes
+    width:145px;
+    right: -50px;
+
     ul {
         list-style: none;
+        width:95px;
     }
 
     li {
