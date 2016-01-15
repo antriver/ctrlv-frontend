@@ -5,7 +5,7 @@ app.directive('paginator', function factory($window, debounce) {
             var calculatePages = function () {
 
                 // Only 1 page - don't need a paginator
-                if ($scope.totalPages <= 3) {
+                if ($scope.totalPages <= 1) {
                     return [1];
                 }
 
@@ -80,6 +80,7 @@ app.directive('paginator', function factory($window, debounce) {
             currentPage: '=',
             totalPages: '=',
             url: '=',
+            changePage: '=',
         },
         templateUrl: 'views/partials/paginator.html'
     };

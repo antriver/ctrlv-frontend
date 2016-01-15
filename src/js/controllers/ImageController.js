@@ -30,7 +30,7 @@ app.controller(
                 if ($scope.image.title) {
                     title = $scope.image.title;
                 } else {
-                    title = 'Image #' + $scope.image.imageId;
+                    title = '<i class="typ typ-image"></i> Image #' + $scope.image.imageId;
                 }
                 $rootScope.title = title;
 
@@ -56,8 +56,8 @@ app.controller(
         $scope.loadAlbumImages = function (albumId) {
             $scope.albumId = albumId;
             // Get the images in the album to show on the left
-            AlbumResource.getImages({albumId: albumId}, function (images) {
-                $scope.albumImages = images;
+            AlbumResource.getImages({albumId: albumId}, function (data) {
+                $scope.albumImages = data.images;
             });
         };
 

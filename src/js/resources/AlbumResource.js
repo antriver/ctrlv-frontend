@@ -14,17 +14,17 @@ app.factory(
                     cache: true,
                     transformResponse: function(data) {
                         data = angular.fromJson(data);
-                        return data.image;
+                        return data.album;
                     }
                 },
 
                 getImages: {
                     cache: true,
                     url: apiUrl + 'albums/:albumId/images',
-                    isArray: true,
+                    //isArray: true,
                     transformResponse: function(data) {
                         var data = angular.fromJson(data);
-                        return data.images;
+                        return data;
                     }
                 }
 

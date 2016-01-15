@@ -40,55 +40,12 @@ annotator {
     cursor: crosshair;
 }
 
-.sidebar {
-    position: fixed;
-    z-index:3;
-    background: @box-bg-color;
-    .transition-all();
 
-    -webkit-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-
-    .btn {
-        display: block;
-        margin: 10px;
-        padding: 6px;
-        height: 36px;
-        overflow: hidden;
-        line-height:23px;
-        i {
-            font-size: 22px;
-            top:-5px;
-        }
-
-        span {
-            max-width: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            display: inline-block;
-            .transition-all();
-        }
-
-        .spinner-loading {
-            zoom: 1;
-            position: relative;
-            left: 1px;
-            top: -2px;
-            width: 22px;
-        }
-    }
-}
 
 .img-left-sidebar,
 .img-submenu {
-    position: fixed;
-    top: 50%;
-    left: 0;
     background: #6C6C60;
     padding: 10px 0;
-    border: @standard-border-width @standard-border-color solid;
-    border-left: 0;
 }
 
 .img-left-sidebar {
@@ -125,8 +82,6 @@ annotator {
     &.annotating {
         margin-top: (-(@img-sidebar-btn-height * 6 + 12px - @header-height) / 2);
     }
-
-
 
     // Expand labels
     &.cropping,
@@ -185,51 +140,13 @@ annotator {
     }
 }
 
-
 .img-right-sidebar {
-
-    top: 70px;
-    bottom: 0;
-
-    border-top: @standard-border-width @standard-border-color solid;
-    border-left: @standard-border-width @standard-border-color solid;
-
-    overflow-y:auto;
-    overflow-x:hidden;
-
-    // Scrollbar wants to be hidden but maintain scrolling functionality
-    // Setting it 50px wider than necessary to cater for all kinds of scrollbar sizes
-    width:145px;
-    right: -50px;
-
-    ul {
-        list-style: none;
-        width:95px;
-    }
-
-    li {
-        display: block;
-        margin: 10px !important;
-    }
-
     li:not(.active):not(:hover) {
         img {
             -webkit-filter: grayscale(100%);
             filter: grayscale(100%);
             opacity: .8;
         }
-    }
-
-    li:first-child {
-        color: @standard-border-color;
-        font-size: 11px;
-        text-align: center;
-        opacity: 1;
-    }
-
-    img {
-        width: 75px;
-        height: 75px;
     }
 }
 
@@ -240,107 +157,4 @@ annotator {
 #image-privacy-modal .btn i {
     display: block;
     font-size: 35px;
-}
-
-// Position left sidebar off-screen
-.img-left-sidebar.ng-enter,
-.ng-enter .img-left-sidebar
-{
-    -webkit-transform: translate3d(-@img-left-sidebar-width, 0, 0);
-    -ms-transform: translate3d(-@img-left-sidebar-width, 0, 0);
-    transform: translate3d(-@img-left-sidebar-width, 0, 0);
-}
-
-.img-right-sidebar.ng-enter,
-.ng-enter .img-right-sidebar
-{
-    -webkit-transform: translate3d(95px, 0, 0);
-    -ms-transform: translate3d(95px, 0, 0);
-    transform: translate3d(95px, 0, 0);
-}
-
-.ng-enter .sidebar {
-    transition: none;
-}
-
-.sidebar.ng-enter-active {
-    -webkit-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-}
-
-.sidebar.ng-leave {
-    -webkit-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-}
-
-.img-left-sidebar.ng-leave-active,
-.ng-leave .img-left-sidebar
-{
-    -webkit-transform: translate3d(-@img-left-sidebar-width, 0, 0);
-    -ms-transform: translate3d(-@img-left-sidebar-width, 0, 0);
-    transform: translate3d(-@img-left-sidebar-width, 0, 0);
-}
-
-.img-right-sidebar.ng-leave-active,
-.ng-leave .img-right-sidebar
-{
-    -webkit-transform: translate3d(95px, 0, 0);
-    -ms-transform: translate3d(95px, 0, 0);
-    transform: translate3d(95px, 0, 0);
-}
-
-.view.ng-enter {
-    // Pretend to animating in so the .ng-active class gets added.
-    // Our animated children go offscreen when this class exists on the .view
-    // The transition is very short because the child stuff doesn't animate in until the .ng-active
-    // class is removed from the parent
-    .transition-all(0s);
-}
-
-.view.ng-leave {
-    // Angular will keep the view around for this length of time
-    // so set it long enough for child animating to finish
-    .transition-all();
-
-    // Immediately hide stuff not animating
-    >:not(.sidebar) {
-        display: none;
-    }
-}
-
-// Magic to not animate when going straight between 2 image pages
-
-// Don't animate the right bar when going from and to image page
-body.image[data-previous="image"] .img-right-sidebar {
-    transition: none;
-    -webkit-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    z-index:3;
-}
-// but hide the right bar immediately on the outgoing image page
-.view.image + .view.image .img-right-sidebar {
-    display: none;
-}
-
-.img-submenu.ng-hide-remove-active,
-.img-submenu {
-    -webkit-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity:1;
-}
-
-.img-submenu.ng-hide {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    -ms-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
-    opacity:0;
-}
-
-.img-submenu.ng-hide-remove,
-.img-submenu.ng-hide-add {
-    display: block !important;
 }

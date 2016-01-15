@@ -1,0 +1,10 @@
+<div class="album-list-sidebar sidebar sidebar-left sidebar-scrolling" ng-if="albums.length > 0">
+    <div class="scroller">
+    <ul>
+        <li>Albums</li>
+        <li ng-repeat="album in albums" ng-class="{active: albumId == albums.albumId}">
+            <a ui-sref="album({albumId: album.albumId})"><img alt="{{ album.title }}" /></a>
+        </li>
+    </ul>
+    </div>
+</div>

@@ -1,0 +1,106 @@
+/**
+ * ng-enter = setup
+ * ng-enter-active = final state when animating in
+ * ng-leave = setup
+ * ng-leave-active = final state when animating out
+ *
+ * ng-enter = ng-leave-active
+ * ng-leave = ng-enter-active
+ */
+
+// Position left sidebar off-screen
+.sidebar-left.ng-enter,
+.sidebar-left.ng-hide-remove,
+.ng-enter .sidebar-left {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    -ms-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    opacity:0;
+}
+
+.sidebar-right.ng-enter,
+.sidebar-right.ng-hide-remove,
+.ng-enter .sidebar-right {
+    -webkit-transform: translate3d(100%, 0, 0);
+    -ms-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    opacity:0;
+}
+
+.ng-enter .sidebar {
+    transition: none;
+}
+
+.sidebar.ng-enter-active,
+.sidebar.ng-hide-remove-active,
+.sidebar.ng-hide-add,
+.sidebar.ng-leave {
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity:1;
+}
+
+.sidebar-left.ng-leave-active,
+.sidebar-left.ng-hide-add-active,
+.ng-leave .sidebar-left {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    -ms-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    opacity:0;
+}
+
+.sidebar-right.ng-leave-active,
+.sidebar-right.ng-hide-add-active,
+.ng-leave .sidebar-right {
+    -webkit-transform: translate3d(100%, 0, 0);
+    -ms-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    opacity:0;
+}
+
+
+.view.ng-enter {
+    // Pretend to animatie in so the .ng-active class gets added.
+    // Our animated children go offscreen when this class exists on the .view
+    // The transition is very short because the child stuff doesn't animate in until the .ng-active
+    // class is removed from the parent
+    .transition-all(0s);
+}
+
+.view.ng-leave {
+    // Angular will keep the view around for this length of time
+    // so set it long enough for child animating to finish
+    .transition-all();
+
+    // Immediately hide stuff not animating
+    >:not(.sidebar) {
+        display: none;
+    }
+}
+
+// Magic to not animate when going straight between 2 image pages
+
+// Don't animate the right bar when going from and to image page
+body.image[data-previous="image"] .sidebar-right {
+    transition: none;
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    z-index:3;
+}
+// but hide the right bar immediately on the outgoing image page
+.view.image + .view.image .sidebar-right {
+    display: none;
+}
+
+
+.img-submenu.ng-hide-remove,
+.img-submenu.ng-hide-add {
+    display: block !important;
+}
+
+.img-submenu.ng-enter,
+.img-submenu.ng-leave {
+    display: none !important;
+}

@@ -6,12 +6,10 @@ paginator {
     border-top: @standard-border-width @standard-border-color solid;
     border-left: @standard-border-width @standard-border-color solid;
 
-    overflow: hidden;
     min-width:60px;
 
     ul {
         height: 100%;
-        list-style: none;
         .vertical-center();
     }
 
@@ -19,6 +17,7 @@ paginator {
         display: block;
         width: 100%;
         text-align: center;
+        margin:0 !important;
     }
 
     a,

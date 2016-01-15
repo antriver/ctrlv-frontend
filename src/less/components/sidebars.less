@@ -1,0 +1,107 @@
+.sidebar {
+    position: fixed;
+    z-index:3;
+    top:70px;
+    bottom:0;
+
+    padding: 10px 0;
+
+    overflow:hidden;
+
+    background: @box-bg-color;
+
+    border: 0 @standard-border-color solid;
+    border-top-width:@standard-border-width;
+
+    .transition-all();
+
+    -webkit-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
+    .btn {
+        display: block;
+        margin: 10px;
+        padding: 6px;
+        height: 36px;
+        overflow: hidden;
+        line-height:23px;
+        i {
+            font-size: 22px;
+            top:-5px;
+        }
+
+        span {
+            max-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            .transition-all();
+        }
+
+        .spinner-loading {
+            zoom: 1;
+            position: relative;
+            left: 1px;
+            top: -2px;
+            width: 22px;
+        }
+    }
+
+    li {
+        display: block;
+        margin:10px;
+    }
+
+    li:first-child {
+        color: @standard-border-color;
+        font-size: 11px;
+        text-align: center;
+        opacity: 1;
+    }
+
+    img {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+.sidebar-left {
+    left:0;
+    border-right-width:@standard-border-width;
+}
+
+.sidebar-right {
+    right:0;
+    border-left-width:@standard-border-width;
+}
+
+// Not attached to the top and bottom
+.sidebar-float {
+    top:50%;
+    bottom:auto;
+    border-bottom-width:@standard-border-width;
+}
+
+.sidebar-scrolling {
+    width:95px;
+    padding:0;
+
+    .scroller {
+        height:100%;
+        width:200%;
+        overflow-y:auto;
+        overflow-x:hidden;
+        // The 100px right padding puts the scrollbar way out of view
+        padding:10px 0;
+    }
+}
+
+.img-right-sidebar,
+.album-list-sidebar {
+    width:95px;
+
+    ul {
+        width:95px;
+    }
+}

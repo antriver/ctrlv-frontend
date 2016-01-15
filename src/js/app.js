@@ -63,10 +63,16 @@ app.config(function($httpProvider, $locationProvider, $stateProvider, $urlRouter
             templateUrl: "views/user.html",
             controller: 'UserController'
         })
-        .state('user-favourites', {
-            url: "/user/{username:string}/favourites",
-            templateUrl: "views/user/favourites.html",
-            controller: 'UserFavouritesController'
+
+        .state('album', {
+            url: "/album/{albumId:int}",
+            templateUrl: "views/album.html",
+            controller: 'AlbumController'
+        })
+        .state('album-page', {
+            url: "/album/{albumId:int}/{page:int}",
+            templateUrl: "views/album.html",
+            controller: 'AlbumController'
         });
 });
 

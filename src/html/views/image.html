@@ -9,7 +9,7 @@
 
 <div
     ng-if="!loading && image"
-    class="sidebar img-left-sidebar"
+    class="sidebar sidebar-left sidebar-float img-left-sidebar"
     ng-class="{
         'editable': user && user.userId === image.userId,
         'cropping': cropping,
@@ -54,18 +54,20 @@
     </div>
 
 </div>
-<div ng-if="doodle" ng-show="annotationColorVisible" class="ng-hide img-submenu sidebar annotation-color">
+<div ng-if="doodle" ng-show="annotationColorVisible" class="ng-hide img-submenu sidebar sidebar-left sidebar-float annotation-color">
     <a class="btn" ng-repeat="color in annotationColors" ng-class="{'active':doodle.color === '#'+color}" ng-click="setAnnotationColor(color)"><i class="typ typ-media-record" ng-style="{color: '#'+color}"></i></a>
 </div>
-<div ng-if="doodle" ng-show="annotationSizeVisible" class="ng-hide img-submenu sidebar annotation-size">
+<div ng-if="doodle" ng-show="annotationSizeVisible" class="ng-hide img-submenu sidebar sidebar-left sidebar-float annotation-size">
     <a class="btn" ng-repeat="size in annotationSizes" ng-class="{'active':doodle.lineThickness === size}" href="#" ng-click="setAnnotationSize(size)"><i ng-style="{height:size+'px'}"></i></a>
 </div>
 
-<div class="sidebar img-right-sidebar" ng-if="albumImages.length > 0">
+<div class="sidebar sidebar-right img-right-sidebar sidebar-scrolling" ng-if="albumImages.length > 0">
+    <div class="scroller">
     <ul>
         <li>In This Album</li>
         <li ng-repeat="albumImage in albumImages" ng-class="{active: imageId == albumImage.imageId}">
             <a ui-sref="image({ imageId: albumImage.imageId, albumId: albumId })"><img ng-src="{{ albumImage.thumbnail.url }}" /></a>
         </li>
     </ul>
+    </div>
 </div>
