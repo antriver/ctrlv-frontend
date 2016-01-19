@@ -1,40 +1,77 @@
-<div class="modal" ng-click="close()" id="image-privacy-modal">
+<div class="modal img-privacy-modal" ng-click="close()">
     <div class="modal-content" ng-click="$event.stopPropagation()">
 
-        <div class="container-fluid" >
+        <div class="container-fluid">
 
             <div class="alert alert-warning" ng-if="image.albumId">
-                This image is part of an album. Go to the <a href="#">albums settings</a> to make the album anonyous and/or password protected.
+                This image is part of the album <strong><a ui-sref="album({albumId:image.albumId})" ng-click="close()">{{ image.album.title }}</a></strong>. Go to the <strong><a ui-sref="album({albumId:image.albumId})" ng-click="close()">album settings</a></strong> to make the album and its
+                images anonymous and/or password protected.
             </div>
 
             <div class="row" ng-if="!image.albumId">
-                <div class="col-sm-6">
+                <div class="col-sm-6 img-privacy-col">
 
-                    <h2><i class="typ typ-user"></i> Show Username <small>on this image.</small></h2>
+                    <h2><i class="typ typ-user"></i> Show Username
+                        <small>on this image.</small>
+                    </h2>
 
                     <div class="form-group">
                         <div class="row">
                             <div class="col-xs-6">
-                                <a ng-click="setAnon(0);" class="btn btn-block" ng-class="{'active': !image.anonymous}"><i class="typ typ-user"></i>Yes</a>
+                                <a ng-click="setAnon(0);" class="btn btn-block" ng-class="{'active': !image.anonymous}">
+                                    <i class="typ typ-user"></i>Yes</a>
                             </div>
                             <div class="col-xs-6">
-                                <a ng-click="setAnon(1);" class="btn btn-block" ng-class="{'active': image.anonymous}"><i class="typ typ-cancel-outline"></i>No</a>
+                                <a ng-click="setAnon(1);" class="btn btn-block"
+                                   ng-class="{'active': image.anonymous}">
+                                    <i class="typ typ-cancel-outline"></i>No</a>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 img-password-col">
 
-                    <h2><i class="typ typ-lock-closed"></i> Password Protect <small>this image.</small></h2>
+                    <form action="#" ng-submit="setPassword($event)">
 
-                    <div class="form-group">
-                        <label>Enter a password that will be required for other people to view this image.</label>
-                        (You will always be able to see it without the password.)
-                        <input type="password" class="form-control" placeholder="Password" />
-                    </div>
+                        <h2>
+                            <i class="typ typ-lock-closed"></i> Password Protect
+                            <small>this image.</small>
+                        </h2>
 
-                    <a class="btn btn-block">Save</a>
+                        <div ng-if="!image.passwordProtected" class="form-group">
+                            <label>Enter a password that will be required for other people to view this image. (You will
+                                always be able to see it without the password.)</label>
+
+                            <input type="password" class="form-control" placeholder="Password"
+                                   ng-model="passwordData.password"/>
+                        </div>
+
+                        <div ng-if="!image.passwordProtected" class="form-group">
+                            <button class="btn btn-block"><i class="typ typ-lock-closed-outline"></i> Save Password
+                            </button>
+                        </div>
+
+
+                        <div ng-if="image.passwordProtected" class="form-group">
+                            <label>This image is currently password protected. Enter a new password if you wish to
+                                change it. (You will always be able to see it without the password.)</label>
+
+                            <input type="password" class="form-control" placeholder="New Password"
+                                   ng-model="passwordData.password"/>
+                        </div>
+
+                        <div ng-if="image.passwordProtected" class="form-group">
+                            <button class="btn btn-block"><i class="typ typ-lock-closed-outline"></i> Update Password
+                            </button>
+                        </div>
+
+                        <div ng-if="image.passwordProtected" class="form-group">
+                            <button class="btn btn-block"><i class="typ typ-lock-open-outline"></i> Remove Password
+                            </button>
+                        </div>
+
+                    </form>
 
                 </div>
             </div>

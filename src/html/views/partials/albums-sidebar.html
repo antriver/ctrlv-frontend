@@ -4,11 +4,15 @@
         <li>Albums</li>
 
         <li>
-            <a ng-click="changeUser($event, user.username)" ui-sref="user({username: user.username})">Unsorted</a>
+            <a ng-click="changeUser($event, user.username)" ui-sref="user({username: user.username})">
+                <span>Unsorted</span>
+            </a>
         </li>
 
         <li ng-repeat="album in albums" ng-class="{active: albumId == albums.albumId}">
-            <a ng-click="changeAlbum($event, album.albumId)" ui-sref="album({albumId: album.albumId})"><img alt="{{ album.title }}" /></a>
+            <a ng-click="changeAlbum($event, album.albumId)" ui-sref="album({albumId: album.albumId})" ng-style="{'background-image': album.thumbnail ? 'url('+album.thumbnail.url+')' : ''}">
+                <span>{{ album.title }}</span>
+            </a>
         </li>
     </ul>
     </div>

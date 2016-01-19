@@ -24,7 +24,7 @@ var ImagePaster = (function () {
          * so paste events happen into that
          */
 
-        // Create paste catcher element
+            // Create paste catcher element
         self.pasteCatcher = document.createElement('div');
         self.pasteCatcher.setAttribute('contenteditable', '');
         self.pasteCatcher.setAttribute('style', 'position:absolute; opacity:0; top:0; left:0; width:0; height:0;');
@@ -217,7 +217,13 @@ var ImagePaster = (function () {
     ImagePaster.prototype.upload = function (format, data) {
 
         var self = this;
-        $(document).trigger('ctrlvuploadstart');
+
+        var id = this.generateId();
+
+        $(document).trigger({
+            type: 'ctrlvuploadstart',
+            id: id
+        });
 
         var url = this.url;
         if (typeof url === 'function') {
@@ -260,31 +266,40 @@ var ImagePaster = (function () {
                         break;
                 }
 
-                self.onFail(message);
+                self.onFail(message, id);
             },
             success: function (res) {
                 if (res.image) {
                     $(document).trigger({
                         type: 'ctrlvuploadcomplete',
-                        image: res.image
+                        image: res.image,
+                        id: id
                     });
                 } else {
-                    self.onFail(res.message);
+                    self.onFail(res.message, id);
                 }
             }
         });
     };
 
-    ImagePaster.prototype.onFail = function (message) {
+    ImagePaster.prototype.onFail = function (message, id) {
         $(document).trigger({
             type: 'ctrlvuploaderror',
-            message: message ? message : false
+            message: message ? message : false,
+            id: id
         });
     };
 
     ImagePaster.prototype.validateURL = function (text) {
         var regex = new RegExp("^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
         return regex.test(text);
+    };
+
+    ImagePaster.prototype.generateId = function () {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = crypto.getRandomValues(new Uint8Array(1))[0] % 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
     };
 
     return ImagePaster;

@@ -11,7 +11,7 @@
 </head>
 <body ng-class="$state.current.name">
 
-    <i ng-show="loading" id="loader" class="spinner-loading dark"></i>
+    <i ng-show="loading || showLoader" id="loader" class="spinner-loading dark"></i>
 
     <ng-include src="'views/partials/header.html'" ng-controller="HeaderController"></ng-include>
 

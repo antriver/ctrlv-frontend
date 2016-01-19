@@ -1,6 +1,6 @@
 <ul>
     <li ng-repeat="page in pages track by $index" ng-class="{'active':currentPage === page}">
         <a ng-if="page != '...'" ng-click="changePage($event, page)" href="{{url}}/{{page}}">{{ page }}</a>
-        <span ng-if="page === '...'">...</span>
+        <a ng-if="page === '...'" ng-click="showPageJump($event)" href="#">...</a>
     </li>
 </ul>

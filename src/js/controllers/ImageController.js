@@ -2,23 +2,22 @@ app.controller(
     'ImageController',
     function ($scope, $rootScope, $state, $element, $stateParams, $compile, AuthService, ImageResource, AlbumResource, ModalService) {
 
+        console.log('ImageController');
+
         $scope.albumId = null;
         $scope.albumImages = [];
         $scope.image = null;
         $scope.imageId = $stateParams.imageId;
         $scope.editing = false;
 
-        $rootScope.loading = true;
         $rootScope.title = '';
         $rootScope.subtitle = '';
 
-        $scope.init = function () {
+        function loadImage(imageId) {
+            $rootScope.loading = true;
+            ImageResource.get({imageId: imageId}, function (response) {
+                $scope.imageId = imageId;
 
-            if ($stateParams.albumId) {
-                $scope.loadAlbumImages($stateParams.albumId);
-            }
-
-            ImageResource.get({imageId: $stateParams.imageId}, function (response) {
                 $scope.image = response.image;
                 $rootScope.loading = false;
 
@@ -51,6 +50,28 @@ app.controller(
                     $scope.loadAlbumImages($scope.image.albumId);
                 }
             });
+        }
+
+        $scope.init = function () {
+            if ($stateParams.albumId) {
+                $scope.loadAlbumImages($stateParams.albumId);
+            }
+            loadImage($scope.imageId);
+        };
+
+        $scope.changeImage = function ($event, imageId) {
+            $event.stopPropagation();
+            $event.preventDefault();
+
+            $scope.cleanup();
+
+            $state.go('image', {imageId: imageId}, {notify: false});
+            loadImage(imageId);
+        };
+
+        $scope.cleanup = function() {
+            $scope.exitAnnotation();
+            $scope.exitCrop();
         };
 
         $scope.loadAlbumImages = function (albumId) {
@@ -147,6 +168,8 @@ app.controller(
 
             $element.append($compile(annotator)($scope));
             $scope.annotating = true;
+
+            alertInfo("Draw on the image to annotate it");
         };
 
         $scope.showAnnotationColor = function () {
@@ -186,9 +209,10 @@ app.controller(
                     $scope.savingAnnotation = false;
                     $scope.image = response.image;
                     $scope.exitAnnotation();
+                    alertSuccess("Annotation saved");
                 }, function (response) {
                     $scope.savingAnnotation = false;
-                    alert(response.data.message);
+                    alertError(response.data.message);
                 }
             );
         };
@@ -228,6 +252,7 @@ app.controller(
                     $scope.cropCoords = c;
                 }
             });
+            alertInfo("Drag a box on image to choose where to crop");
         };
 
         $scope.saveCrop = function () {
@@ -252,16 +277,19 @@ app.controller(
                 function (response) {
                     $scope.exitCrop();
                     $scope.image = response.image;
+                    alertSuccess("Image has been cropped");
                 },
                 function (response) {
                     $scope.savingCrop = false;
-                    alert(response.data.message);
+                    alertError(response.data.message);
                 }
             );
         };
 
         $scope.exitCrop = function () {
-            $scope.jcrop.destroy();
+            if ($scope.jcrop) {
+                $scope.jcrop.destroy();
+            }
             $scope.cropCoords = null;
             $scope.cropping = false;
             $scope.jcrop = null;
@@ -284,11 +312,37 @@ app.controller(
                     $scope.editing = false;
                     $scope.rotating = false;
                     $scope.image = response.image;
+                    alertSuccess("Image has been rotated");
                 },
                 function (response) {
                     $scope.editing = false;
                     $scope.rotating = false;
-                    alert(response.data.message);
+                    alertError(response.data.message);
+                }
+            );
+        };
+
+        $scope.rotateCcw = function () {
+            if ($scope.editing) {
+                return false;
+            }
+            $scope.editing = true;
+            $scope.rotatingCcw = true;
+            ImageResource.rotate(
+                {
+                    imageId: $scope.image.imageId,
+                    direction: 'ccw'
+                },
+                function (response) {
+                    $scope.editing = false;
+                    $scope.rotatingCcw = false;
+                    $scope.image = response.image;
+                    alertSuccess("Image has been rotated");
+                },
+                function (response) {
+                    $scope.editing = false;
+                    $scope.rotatingCcw = false;
+                    alertError(response.data.message);
                 }
             );
         };
@@ -312,11 +366,12 @@ app.controller(
                     $scope.editing = false;
                     $scope.reverting = false;
                     $scope.image = response.image;
+                    alertSuccess("Image has been reverted");
                 },
                 function (response) {
                     $scope.editing = false;
                     $scope.reverting = false;
-                    alert(response.data.message);
+                    alertError(response.data.message);
                 }
             );
         };
@@ -328,19 +383,56 @@ app.controller(
                     $scope.image = image;
                     $scope.close = close;
 
+                    $scope.passwordData = {
+                        password: ''
+                    };
+
                     $scope.setAnon = function (anon) {
+                        $rootScope.showLoader = true;
                         ImageResource.update({'imageId': $scope.image.imageId},
                         {
                             anonymous:anon
                         }, function(res)
                         {
+                            if (anon) {
+                                alertSuccess("The image is now anonymous");
+                            } else {
+                                alertSuccess("The image now shows your name");
+                            }
+                            $rootScope.showLoader = false;
                             $scope.image = res.image;
                             $scope.$parent.image = res.image;
                         });
                     };
 
-                    $scope.setPassword = function () {
+                    $scope.setPassword = function ($event) {
+                        $event.preventDefault();
+                        $rootScope.showLoader = true;
+                        ImageResource.update({'imageId': $scope.image.imageId},
+                        {
+                            password:$scope.passwordData.password
+                        }, function(res)
+                        {
+                            alertSuccess("Password removed");
+                            $rootScope.showLoader = false;
+                            $scope.image = res.image;
+                            $scope.$parent.image = res.image;
+                        });
+                    };
 
+                    $scope.removePassword = function ($event) {
+                        $event.preventDefault();
+                        $rootScope.showLoader = true;
+                        ImageResource.update({'imageId': $scope.image.imageId},
+                        {
+                            password:''
+                        }, function(res)
+                        {
+                            alertSuccess("Password removed");
+                            $rootScope.showLoader = false;
+                            $scope.image = res.image;
+                            $scope.$parent.image = res.image;
+                        });
                     };
 
                 },
@@ -369,11 +461,12 @@ app.controller(
                     $scope.editing = false;
                     $scope.deleting = false;
                     $scope.image = null;
+                    alertSuccess("Image deleted");
                 },
                 function (response) {
                     $scope.editing = false;
                     $scope.deleting = false;
-                    alert(response.data.message);
+                    alertError(response.data.message);
                 }
             );
         };

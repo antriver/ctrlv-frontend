@@ -83,6 +83,10 @@ annotator {
         margin-top: (-(@img-sidebar-btn-height * 6 + 12px - @header-height) / 2);
     }
 
+    .btn {
+        max-width:36px;
+    }
+
     // Expand labels
     &.cropping,
     &.annotating,
@@ -93,15 +97,55 @@ annotator {
         // Be explicit
         width: @img-left-sidebar-expanded-width;
 
+        .btn {
+            max-width:400px
+        }
+
         .btn span {
             max-width: 200px;
             padding: 0 2px;
+        }
+
+        .rotate-btn {
+            max-width: 112px;
         }
     }
 
     hr {
         margin: 10px;
     }
+
+    .rotate-ccw-btn {
+        position: absolute;
+        left: 121px;
+        float: none;
+        top: 287px;
+        padding-top: 10px;
+        padding-left: 7px;
+
+        img {
+            -moz-transform: scale(-1, 1);
+            -webkit-transform: scale(-1, 1);
+            -ms-transform: scale(-1, 1);
+            transform: scale(-1, 1);
+        }
+    }
+}
+
+.rotate-btn img {
+    width: 23px;
+    height: auto;
+    position: relative;
+    top: -8px;
+    left: 1px;
+}
+
+.rotate-ccw-btn img {
+    width: 23px;
+    height: auto;
+    position: relative;
+    top: -6px;
+    left: -1px;
 }
 
 .img-submenu {
@@ -150,11 +194,11 @@ annotator {
     }
 }
 
-#image-text-modal .alert-warning {
+.img-text-modal .alert-warning {
     min-height:61px;
 }
 
-#image-privacy-modal .btn i {
+.img-privacy-modal .img-privacy-col .btn i {
     display: block;
     font-size: 35px;
 }

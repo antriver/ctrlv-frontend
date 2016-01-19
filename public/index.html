@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ctrlv" class="no-js" ng-csp>
 <head>
-    <link rel="stylesheet" type="text/css" href="/assets/build/20160115043259/css/ctrlv.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/build/20160119023752/css/ctrlv.min.css" />
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
@@ -11,7 +11,7 @@
 </head>
 <body ng-class="$state.current.name">
 
-    <i ng-show="loading" id="loader" class="spinner-loading dark"></i>
+    <i ng-show="loading || showLoader" id="loader" class="spinner-loading dark"></i>
 
     <ng-include src="'views/partials/header.html'" ng-controller="HeaderController"></ng-include>
 
@@ -25,7 +25,7 @@
 var apiUrl = '/api/v1.1/';
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="/assets/build/20160115043259/js/libs.min.js"></script>
-<script type="text/javascript" src="/assets/build/20160115043259/js/ctrlv.min.js"></script>
+<script type="text/javascript" src="/assets/build/20160119023752/js/libs.min.js"></script>
+<script type="text/javascript" src="/assets/build/20160119023752/js/ctrlv.min.js"></script>
 </body>
 </html>

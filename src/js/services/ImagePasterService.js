@@ -2,12 +2,16 @@ app.service(
     'ImagePasterService',
     function($state, AuthService) {
 
+        var messages = {};
+
         /**
          * Add listeners for events that ImagePaster broadcasts.
          */
-        $(document).on('ctrlvuploadstart', function () {
+        $(document).on('ctrlvuploadstart', function (e) {
             $('.upload-status').addClass('out');
             $('#upload-loading').removeClass('out');
+
+            messages[e.id] = alertSpinner("Uploading image...");
         });
 
         $(document).on('ctrlvuploadcomplete', function (e) {
@@ -18,6 +22,15 @@ app.service(
             $('#view-btn').attr('href', viewUrl);
             $('#uploader').css('background-image', 'url(' + imageUrl + ')');
 
+            if (messages.hasOwnProperty(e.id)) {
+                messages[e.id].update({
+                    type: "success",
+                    message: "Image uploaded! " + e.image.url
+                })
+            } else {
+                alertSuccess("Image uploaded! " + e.image.url, true);
+            }
+
             $state.go('image', {imageId: e.image.imageId});
 
         });
@@ -25,6 +38,16 @@ app.service(
         $(document).on('ctrlvuploaderror', function (e) {
             $('.upload-status').addClass('out');
             $('#upload-error').removeClass('out').find('p').text(e.message);
+
+            if (messages.hasOwnProperty(e.id)) {
+                messages[e.id].update({
+                    type: "error",
+                    message: e.message
+                })
+            } else {
+                alertError(e.message, true);
+            }
+
         });
 
         $(document).on('keyup', function (e) {

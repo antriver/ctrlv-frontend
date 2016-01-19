@@ -45,6 +45,8 @@ module.exports = function(grunt) {
                     'bower_components/angular-ui-router/release/angular-ui-router.min.js',
                     'bower_components/moment/min/moment.min.js',
                     'bower_components/Jcrop/js/jquery.Jcrop.min.js',
+                    'bower_components/messenger/build/js/messenger.min.js',
+                    //'bower_components/messenger/build/js/messenger-theme-flat.min.js',
                  ],
                 dest: 'public/assets/build/' + buildNumber + '/js/libs.min.js'
             },
@@ -60,7 +62,6 @@ module.exports = function(grunt) {
                 src: [
                     'src/js/app.js',
                     'src/js/templates.js',
-                    'src/js/api.js',
                     'src/js/**/*.js',
                 ],
                 dest: 'public/assets/build/' + buildNumber + '/js/ctrlv.min.js'

@@ -1,7 +1,18 @@
-app.directive('paginator', function factory($window, $timeout, debounce) {
+app.directive('paginator', function factory($window, $state, $timeout, debounce) {
     return {
         restrict: 'E',
         controller: function ($scope, $element) {
+
+            $scope.showPageJump = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                var pageNumber  = prompt("Enter a page number to jump to.");
+                if (pageNumber) {
+                    window.location = $scope.url + '/' + pageNumber;
+                }
+            };
+
             var calculatePages = function () {
 
                 console.log('calculatePages', $scope.currentPage, $scope.totalPages);

@@ -43,7 +43,11 @@
         <div ng-if="user && user.userId === image.userId">
             <a class="btn" href="#" ng-click="annotate()"><i class="typ typ-brush"></i><span>Annotate</span></a>
             <a class="btn" href="#" ng-click="crop()"><i class="typ typ-scissors-outline"></i><span>Crop</span></a>
-            <a class="btn" href="#" ng-click="rotate()"><i class="typ typ-arrow-sync-outline" ng-hide="rotating"></i><i class="spinner-loading dark" ng-show="rotating"></i><span>Rotate</span></a>
+
+            <a class="btn rotate-ccw-btn" href="#" ng-click="rotateCcw()"><img src="/assets/img/rotate.svg" ng-hide="rotatingCcw" /><i class="spinner-loading dark" ng-show="rotatingCcw"></i></a>
+
+            <a class="btn rotate-btn" href="#" ng-click="rotate()"><img src="/assets/img/rotate.svg" ng-hide="rotating" /><i class="spinner-loading dark" ng-show="rotating"></i><span>Rotate</span></a>
+
             <a class="btn" href="#" ng-if="image.hasOriginal" ng-click="revert()"><i class="typ typ-arrow-back" ng-hide="reverting"></i><i class="spinner-loading dark" ng-show="reverting"></i><span>Revert To Original</span></a>
             <a class="btn" href="#" ng-click="showPrivacyDialog()"><i class="typ typ-lock-closed"></i><span>Privacy</span></a>
             <a class="btn" href="#" ng-click="delete()"><i class="typ typ-trash" ng-hide="deleting"></i><i class="spinner-loading dark" ng-show="deleting"></i><span>Delete</span></a>
@@ -65,8 +69,8 @@
     <div class="scroller">
     <ul>
         <li>In This Album</li>
-        <li ng-repeat="albumImage in albumImages" ng-class="{active: imageId == albumImage.imageId}">
-            <a ui-sref="image({ imageId: albumImage.imageId, albumId: albumId })"><img ng-src="{{ albumImage.thumbnail.url }}" /></a>
+        <li ng-repeat="albumImage in albumImages" ng-class="{active: imageId === albumImage.imageId}">
+            <a ng-click="changeImage($event, albumImage.imageId)" ui-sref="image({ imageId: albumImage.imageId, albumId: albumId })"><img ng-src="{{ albumImage.thumbnail.url }}" /></a>
         </li>
     </ul>
     </div>

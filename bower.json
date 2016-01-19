@@ -12,7 +12,7 @@
     "angular-modal-service": "https://github.com/dwmkerr/angular-modal-service.git#f656ba4",
     "moment": "~2.10.6",
     "Jcrop": "0.9.13",
-    "throttle-debounce": "~0.1.1",
-    "angular-debounce": "~1.0.3"
+    "angular-debounce": "~1.0.3",
+    "messenger": "https://github.com/HubSpot/messenger.git#~1.4.2"
   }
 }

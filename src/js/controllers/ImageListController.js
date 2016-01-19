@@ -10,11 +10,6 @@ app.controller(
 
         $scope.mode = $stateParams.mode;
 
-        // Redirect to just /username if we're on /username/1
-        if ($stateParams.page === 1) {
-            $state.go('user', {username: $scope.username});
-            return;
-        }
 
         /**
          * Load the user

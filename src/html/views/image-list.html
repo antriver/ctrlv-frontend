@@ -1,12 +1,17 @@
 <ng-include src="'views/partials/albums-sidebar.html'"></ng-include>
 
-<ul ng-if="images.length > 0" class="img-grid">
+<ul ng-if="!loading && images.length > 0" class="img-grid">
     <li ng-repeat="image in images">
         <a
             ui-sref="image({ imageId: image.imageId })"
             ng-style="{'background-image': image.thumbnail ? '' : 'url('+ image.image.url + ')'}"
             >
             <img ng-if="image.thumbnail" class="img-thumb" ng-src="{{ image.thumbnail.url }}" />
+
+            <span>
+                <i ng-if="image.passwordProtected" class="typ typ-lock-closed"></i>
+                <i ng-if="image.anonymous" class="typ typ-cancel-outline"></i>
+           </span>
         </a>
     </li>
 </ul>
